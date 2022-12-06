@@ -56,9 +56,16 @@
 				}
 			},
 			height: [Number,String] ,// mescroll的高度
-			listType:{
+			swiperParams:{
+				type:Object,
+				default:()=>{
+					return {}
+				}
+			},
+			//组件共用一个api通过传递url参数获取数据
+			pageUrl:{
 				type:String,
-				default:'course'
+				default:'/mobile/user_history/list'
 			}
 		},
 		methods: {
@@ -85,7 +92,8 @@
 				// 	this.mescroll.endErr();
 				// })
 				try{
-					let res = await studyApi.gteHistoryListApi({page:page.num,type:this.listType})
+					this.swiperParams.page = page.num
+					let res = await studyApi.gteHistoryListApi(this.pageUrl,this.swiperParams)
 					console.log(res);
 					if(res.statusCode===200){
 						if(page.num==1) this.goods=[]

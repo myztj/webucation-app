@@ -4,7 +4,7 @@
         <my-list-box title="拼团">
 			<scroll-view scroll-x="true" >
 				<view class="scroll-item">
-					<z-goods-item :isColumn="true" v-for="(item,index) in groupList" :item="item"></z-goods-item>
+					<z-goods-item @goToCourse="goToCourse(item)" :isColumn="true" v-for="(item,index) in groupList" :item="item"></z-goods-item>
 				</view>
 			</scroll-view>
 		</my-list-box>
@@ -39,13 +39,17 @@
 					//TODO handle the exception
 				}
 			},
+			//点击跳跳转课程页面
+			goToCourse(item){
+				console.log(item);
+				this.navTo(`/pages/index/course?id=${item.id}&group_id=${item.group_id}`)
+			}
 		}
 	}
 </script>
 
 <style lang="scss">
 	.group-box{
-		border-top: 15rpx solid #f5f5f3;
 		.scroll-item{
 			padding-bottom: 20rpx;
 			padding-left: 20rpx;

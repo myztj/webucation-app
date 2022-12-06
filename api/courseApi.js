@@ -1,14 +1,13 @@
 import request from "@/utils/request.js"
 
-const gteHistoryListApi = (pageUrl="/mobile/user_history/list",data)=>{
+const getCourseApi = (data)=>{
 	return request({
-		url:pageUrl,
+		url:`/mobile/course/read`,
 		method:'GET',
 		data
 	})
 }
 
-
 export default {
-	gteHistoryListApi
+	getCourseApi
 }

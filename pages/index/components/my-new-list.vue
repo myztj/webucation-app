@@ -2,7 +2,7 @@
 	<view class="list-box">
 		<my-list-box title="最新列表" :Allinfo="true">
 			<view class="list-item" v-for="(item,index) in newList" :key="index">
-				<z-goods-item :item="item"></z-goods-item>
+				<z-goods-item @goToCourse="goToCourse(item)" :item="item" :newLitStyle="true"></z-goods-item>
 			</view>
 		</my-list-box>
 	</view>
@@ -19,6 +19,11 @@
 			  type:Array,
 			  default:()=>[]
 		  }
+		},
+		methods:{
+			goToCourse(item){
+				this.navTo(`/pages/index/course?id=${item.id}`)
+			}
 		}
 	}
 </script>

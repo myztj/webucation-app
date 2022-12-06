@@ -135,7 +135,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "消息列表",
-                "enablePullDownRefresh": false,
+                "enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#fff"
             }
             
@@ -183,7 +183,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "秒杀列表",
-                "enablePullDownRefresh": false,
+                "enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#fff"
             }
             
@@ -210,6 +210,56 @@
         }
         ,{
             "path" : "pages/search/search",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"backgroundColor": "#fff",
+						"searchInput": {
+							"align": "left",
+							"placeholder": "请输入关键字",
+							"placeholderColor": "#cccccc",
+							"backgroundColor": "#f6f9fb",
+							"borderRadius": "50rpx",
+							"autoFocus": true
+						},
+						"buttons": [
+							{
+								"text": "搜索",
+								"float": "right",
+								"fontSize": "30rpx"
+							}
+						]
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/search/search-result",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "fff",
+                "enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": {
+						"backgroundColor": "#fff",
+						"searchInput": {
+							"backgroundColor": "#f6f9fb",
+							"align": "left",
+							"disabled": true,
+							"placeholder": "请输入关键字",
+							"borderRadius": "50rpx"
+						}
+					}
+				}
+            }
+            
+        }
+        ,{
+            "path" : "pages/index/course",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

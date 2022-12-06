@@ -50,7 +50,7 @@
 <style lang="scss">
 .coupon-item{
 	display: flex;
-	margin: 30rpx 0;
+	margin: 20rpx 0;
 	.coupon-left{
 		width: 450rpx;
 		background-color: #d39e00;

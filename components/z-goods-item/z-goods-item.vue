@@ -1,25 +1,31 @@
 <template>
 	<view>
-		<view class="goods-list">
+		<view class="goods-list" @click="goToCourse">
 			<view class="goods-item" :class="{'column':isColumn}">
 				<view class="goods-left" :class="{'columnImgWigth':isColumn}" >
-					<image :src="item.cover || '../../static/banner/banner2.png'" mode=""></image>
-					<text class="ico">图文</text>
+					<image :src="item.cover" mode=""></image>
+					<text class="ico">{{imgText}}</text>
 				</view>
 				<view class="goods-right">
 					<view class="right-up">
 						<view class="title">{{item.title}}</view>
-						<view class="info" v-if="item.try">{{item.try}}</view>
+						<view class="info" v-if="!item.t_price">{{item.try}}</view>
 						<view class="info" v-if="isprogress">学习进度</view>
-						<view class="" v-if="item.price">
-							<text class="price" style="color: red;" v-if="item.price!='0.00'&&item.t_price!='0.00'">秒杀价：<text style="font-size: 35rpx;">￥{{item.price}}</text></text>
+						<view class="recommend" v-if="recommend">一句话推荐</view>
+						<view class="" v-if="item.price && !newLitStyle">
+							<text class="price" style="color: red;" v-if="item.price!='0.00'">{{item.flashsale_id?'秒杀价：':''}}<text style="font-size: 35rpx;">￥{{item.price}}</text></text>
 							<text class="price" style="color: red;" v-if="item.price=='0.00'">免费<text style="font-size: 35rpx;">￥{{item.t_price}}</text></text>
 							<text class="t-price" style="font-size: 24rpx; color: #a9a5a0;">￥{{item.t_price}}</text>
 						</view>
 					</view>
-					<view class="right-down">
+					<view class="right-down" v-if="!newLitStyle">
 						<text v-if="isprogress">最近学习 </text>
 						<text v-if="isprogress">已学习 {{item.progress}}%</text>
+					</view>
+					<view class="" v-if="newLitStyle">
+						<text class="price" style="color: red;" v-if="item.price!='0.00'">{{item.flashsale_id?'秒杀价：':''}}<text style="font-size: 35rpx;">￥{{item.price}}</text></text>
+						<text class="price" style="color: red;" v-if="item.price=='0.00'">免费<text style="font-size: 35rpx;">￥{{item.t_price}}</text></text>
+						<text class="t-price" style="font-size: 24rpx; color: #a9a5a0;">￥{{item.t_price}}</text>
 					</view>
 				</view>
 			</view>
@@ -31,6 +37,15 @@
 	export default {
 		name:"z-goods-item",
 		props:{
+			//是否是推荐
+			recommend:{
+				type:Boolean,
+				default:false
+			},
+			newLitStyle:{
+				type:Boolean,
+				default:false
+			},
 			item:{
 				type:Object,
 				default:()=>({
@@ -47,15 +62,21 @@
 				
 			}
 		},
+		methods:{
+			goToCourse(){
+				this.$emit('goToCourse')
+				}
+		},
 		computed:{
 			isprogress(){
 				return typeof(this.item.progress)=="number"
+			},
+			imgText(){
+				if(this.item.type=='media') return '图文'
+				if(this.item.type=='video') return '视频'
+				if(this.item.type=='column') return '专栏'
+				if(this.item.type=='audio') return '音频'
 			}
-		},
-		data() {
-			return {
-				
-			};
 		}
 	}
 </script>
@@ -106,6 +127,12 @@
 					font-size: 24rpx;
 					color: #6c757d;
 					margin-top: 5rpx;
+				}
+				.recommend{
+					font-size: 24rpx;
+					color: #6c757d;
+					margin-top: 5rpx;
+					padding: 10rpx 0;
 				}
 			}
 			.right-down{

@@ -19,6 +19,10 @@
 		onLoad() {
 			this.getMyInfo()
 		},
+		onPullDownRefresh() {
+			this.myInfoList = []
+			this.getMyInfo()
+		},
 		methods: {
 		async getMyInfo(){
 			uni.showLoading({mask:true})
@@ -28,9 +32,11 @@
 					if(res.statusCode==200){
 						this.myInfoList = res.data.data.rows
 					}
+					uni.stopPullDownRefresh()
 					uni.hideLoading()
 				}catch(e){
 					uni.hideLoading()
+					uni.stopPullDownRefresh()
 					console.log(e);
 					//TODO handle the exception
 				}

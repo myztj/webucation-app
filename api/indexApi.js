@@ -17,9 +17,9 @@ const getTestListApi = (data)=>{
 }
 
 //秒杀列表
-const GetflashsaleListApi = (data)=>{
+const GetflashsaleListApi = (urls='flashsale',data)=>{
 	return request({
-		url:'/mobile/flashsale',
+		url:`/mobile/${urls}`,
 		method:'GET',
 		data
 	})

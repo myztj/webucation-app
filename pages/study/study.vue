@@ -1,11 +1,14 @@
 <template>
 	<view class="study-box">
 		<view class="boops" v-if="istoken">
+			<!-- //导航 -->
 			<z-card-nav></z-card-nav>
+			<!-- 导航 -->
 			<meTbs :tabs="tabs" v-model="tabIndex" :height="90"></meTbs>
+			
 			<swiper :style="{height: height}" :current="tabIndex" @change="swiperChange">
 				<swiper-item v-for="(tab,i) in tabs" :key="i">
-					<mescroll-item ref="mescrollItem" :i="i" :listType="listType" :index="tabIndex" :tabs="tabs" :height="height"></mescroll-item>
+					<mescroll-item ref="mescrollItem" :i="i" :swiperParams="swiperParams" :index="tabIndex" :tabs="tabs" :height="height"></mescroll-item>
 				</swiper-item>
 			</swiper>
 		</view>
@@ -31,7 +34,10 @@
 				tabs:['课程','专栏'],
 				tabIndex:0,
 				height:"",
-				listType:'course'
+				swiperParams:{
+					page:0,
+					type:'course'
+				}
 			}
 		},
 		computed:{
@@ -49,7 +55,7 @@
 			swiperChange(e){
 				console.log(e);
 				let index = e.detail.current
-				index===0? this.listType = 'course' : this.listType = 'column'
+				index===0? this.swiperParams.type = 'course' : this.swiperParams.type = 'column'
 				this.tabIndex = e.detail.current
 			},
 		}
