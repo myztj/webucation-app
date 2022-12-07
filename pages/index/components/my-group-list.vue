@@ -31,7 +31,6 @@
 			async getGroupList(){
 				try{
 					let res = await indexApi.getGroupListApi({page:1,usable:1})
-					console.log(res);
 					if(res.statusCode==200){
 						this.groupList = res.data.data.rows
 					}
@@ -42,7 +41,8 @@
 			//点击跳跳转课程页面
 			goToCourse(item){
 				console.log(item);
-				this.navTo(`/pages/index/course?id=${item.id}&group_id=${item.group_id}`)
+				// this.navTo(`/pages/index/course?id=${item.id}&group_id=${item.group_id}&type=${item.type}`)
+				this.navTo(`/pages/index/course?obj=${encodeURIComponent(JSON.stringify(item))}`)
 			}
 		}
 	}

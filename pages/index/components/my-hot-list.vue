@@ -2,7 +2,9 @@
 	<view class="">
 		<my-list-box title="热门推荐" :Allinfo="true">
 			<view class="hot-item">
-				<z-goods-item :recommend="true" :isColumn="true" v-for="(item,index) in newListData" :key="index" :item="item"></z-goods-item>
+				<view class="hot-i" v-for="(item,index) in newListData" :key="index">
+				<z-goods-item :recommend="true" :isColumn="true" :item="item"></z-goods-item>
+				</view>
 			</view>
 		</my-list-box>
 	</view>
@@ -30,6 +32,9 @@
 	.hot-item{
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 15rpx 20rpx;
+		padding-left:23rpx;
+		.hot-i{
+			padding: 15rpx 0;
+		}
 	}
 </style>

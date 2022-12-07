@@ -4,8 +4,8 @@
 			<view class="coupon-item">
 				<view class="coupon-left" :class="{'reduce':item.isgetcoupon}">
 					<view class="price">￥{{item.price}}</view>
-					<view class="title" v-if="item.value">{{item.value.title}}</view>
-					<view class="title" v-if="!item.value">{{item.title}}</view>
+					<view class="title" v-if="item.value">{{item.type=='course'?'适用课程':'适用专栏'}}: {{item.value.title}}</view>
+					<view class="title" v-if="!item.value">{{item.type=='course'?'适用课程':'适用专栏'}}: {{item.title}}</view>
 				</view>
 				<view class="coupon-right" hover-class="active" v-if="!item.value">立即使用</view>
 				<view @click="getCoupon(item)" class="coupon-right reduce-width" :class="{'reduce':item.isgetcoupon}" hover-class="active" v-if="item.value">{{item.isgetcoupon?'已领取':'领取'}}</view>
@@ -56,7 +56,7 @@
 		background-color: #d39e00;
 		padding: 20rpx;
 		color: #fff;
-		border-right: 1rpx dashed #fff;
+		border-right: 4rpx dashed #fff;
 		.price{
 			font-size: 40rpx;
 		}

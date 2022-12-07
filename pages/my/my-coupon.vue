@@ -17,17 +17,35 @@
 				couponList:[]
 			}
 		},
-		onLoad() {
+		async onLoad() {
+			try{
+				let res = await this.getUseCoupon()
+				this.couponList = res.data.data.rows
+			}catch(e){
+				console.log(e);
+				//TODO handle the exception
+			}
 			this.getUseCoupon()
+		},
+		async onPullDownRefresh() {
+			this.couponList = []
+			try{
+				let res = await this.getUseCoupon(this.couponParams)
+				this.couponList = res.data.data.rows
+				uni.stopPullDownRefresh()
+			}catch(e){
+				uni.stopPullDownRefresh()
+				//TODO handle the exception
+			}
 		},
 		methods: {
 			async getUseCoupon(){
 				uni.showLoading({mask:true})
 				try{
 					let res = await orderApi.getUseCouponApi(this.couponParams)
-					console.log(res);
-					this.couponList = res.data.data.rows
 					uni.hideLoading()
+					return res
+					// this.couponList = res.data.data.rows
 				}catch(e){
 					uni.hideLoading()
 					console.log(e);

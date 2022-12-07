@@ -3,111 +3,209 @@
 		<view class="course-img">
 			<image :src="courseInfo.cover" mode=""></image>
 			<text class="imageText">音频</text>
+			<view class="mask" v-if="courseInfo.type==='live'">
+				<text>开始时间：{{start_date}}</text>
+				<text>结束时间：{{end_date}}</text>
+			</view>
 		</view>
-		<view class="time">
+		<view class="time" v-if="days && courseInfo.title && courseInfo.type!=='live'">
 			<view class="time-left">
 				<view class="price">
 					<text>￥0.10</text>
 					<text class="original-price">￥10.00</text>
-					</view>
+				</view>
 				<view class="group-num">2人拼团</view>
 			</view>
 			<view class="time-right">
-				距结束<text>571</text> 天 <text>04</text> : <text>24</text> : <text>07</text>
+				<text class="time-text">距结束</text><uni-countdown :font-size="15" :day="days" :hour="hr" :minute="min" :second="sec" color="#FFFFFF" background-color="#c3152e" />
 			</view>
 		</view>
 		<view class="info">
 			<view class="info-left">
-				<view class="title">{{courseInfo.title}}</view>
-				<view class="number">{{courseInfo.sub_count}}人学过</view>
-				<view class="price-info">￥{{courseInfo.price}} <text class="original">￥{{courseInfo.t_price}}</text></view>
+				<view class="title">{{ courseInfo.title }}</view>
+				<view class="number">{{ courseInfo.sub_count }}人学过</view>
+				<view class="price-info">
+					￥{{ courseInfo.price }}
+					<text class="original">￥{{ courseInfo.t_price }}</text>
+				</view>
 			</view>
 			<view class="info-right">
-				<uni-icons type="star" size="30"></uni-icons>
+				<uni-icons type="star" size="30" @click="handledrCollect" v-if="!collecClass"></uni-icons>
+				<uni-icons color="red" type="star-filled" size="30" @click="handledrCollect" v-if="collecClass"></uni-icons>
 			</view>
 		</view>
 		<view class="course">
-			<view class="course-title">
-				课程简介
-			</view>
-			<view class="" v-html="courseInfo.try">
-				
-			</view>
+			<view class="course-title">课程简介</view>
+			<view class="" v-if="!courseInfo.content" v-html="courseInfo.try"></view>
+			<view class="" v-if="courseInfo.content" v-html="courseInfo.content"></view>
+			<view class="logding" v-if="!courseInfo.title">加载中...</view>
 		</view>
-		<view class="footer-btn">
-			<button class="btn" type="default">立即拼团￥5.00</button>
-		</view>
+		<view v-if="courseInfo.title" class="footer-btn"><button class="btn" type="default">立即拼团￥5.00</button></view>
 	</view>
 </template>
 
 <script>
-	import courseApi from "@/api/courseApi.js"
-	export default {
-		data() {
-			return {
-				courseIds:{
-					id:'',
-					group_id:''
-				},
-				courseInfo:{},
+import uniCountdown from "@/uni_modules/uni-countdown/components/uni-countdown/uni-countdown.vue"
+import courseApi from '@/api/courseApi.js';
+export default {
+	data() {
+		return {
+			courseIds: {
+				id: 0,
+				group_id: 0,
+				column_id:0,
+				flashsale_id:0
+			},
+			courseInfo: {},
+			url: 'course',
+			start_date:'',
+			end_date:'',
+			collectUrl:'collect',
+			collecClass:false
+		};
+	},
+	onLoad(option) {
+		let data = JSON.parse(decodeURIComponent(option.obj))
+		console.log(data);
+		this.collecClass = uni.getStorageSync('collecClass')
+		console.log(this.collecClass);
+		this.start_date = new Date(data.start_time).toLocaleString()
+		this.end_date = new Date(data.end_time).toLocaleString()
+		//处理时间，方法在全局的mixins
+         this.formDate(data.end_time)
+		if (data.type == 'column' || data.id == 3) {
+			this.url = 'column';
+		}
+		if(!data.type && data.sub_count==0){
+			this.url = 'live';
+		}
+		this.courseIds.id = data.id;
+		if(data.group_id) this.courseIds.group_id = data.group_id;
+		if(data.column_id) this.courseIds.column_id = data.column_id;
+		if(data.flashsale_id) this.courseIds.flashsale_id = data.flashsale_id;
+		this.getCourseinfo();
+	},
+	methods: {
+		//收藏
+		async handledrCollect(){
+			let type = ''
+			if(this.courseInfo.type=='video' || this.courseInfo.type=='audio' || this.courseInfo.type=='media'){
+				type = 'course'
+			}else{
+				type = this.this.courseInfo.type
 			}
-		},
-		onLoad(option) {
-			this.courseIds.id=option.id
-			this.courseIds.group_id = option.group_id
-			this.getCourseinfo()
-		},
-		methods: {
-			async getCourseinfo(){
-				try{
-					let res = await courseApi.getCourseApi(this.courseIds,this.url)
-					console.log(res);
-					if(res.statusCode==200){
-					   this.courseInfo = res.data.data
-					}else if(res.statusCode==404){
-						uni.showToast({
-							title:'该记录不存在',
-							icon:'none'
-						})
-						setTimeout(()=>{
-							this.navTo('/pages/index/index',true)
-						},800)
-					}
-				}catch(e){
-					console.log(e);
-					//TODO handle the exception
+			try{
+				let res = await courseApi.userCollectApi(this.collectUrl,{goods_id:this.courseInfo.id,type})
+				console.log(res);
+				this.collecClass = !this.collecClass
+				if(this.collecClass){
+					this.collectUrl = 'uncollect'
+				}else{
+					this.collectUrl = 'collect'
 				}
+				if(res.statusCode==200){
+					uni.showToast({title:res.data.data=='ok'?'收藏成功' : '已取消',icon:'none'})
+					this.collecClass = res.data.data=='ok'? true : false
+				}
+				uni.setStorageSync('collecClass',this.collecClass)
+				// if(res.statusCode==400) uni.showToast({title:res.data.data,icon:'none'})
+			}catch(e){
+				//TODO handle the exception
 			}
 		},
-		
+		//获取详情页数据
+		async getCourseinfo() {
+			try {
+				let res = await courseApi.getCourseApi(this.url, this.courseIds);
+				console.log(res.data)
+				if (res.statusCode == 200) {
+					this.courseInfo = res.data.data;
+					//动态修改标题栏标题
+					uni.setNavigationBarTitle({ title: this.courseInfo.title });
+				} else if (res.statusCode == 404) {
+					uni.showToast({
+						title: '该记录不存在',
+						icon: 'none'
+					});
+					setTimeout(() => {
+						uni.navigateBack()
+					}, 800);
+				}
+			} catch (e) {
+				console.log(e);
+				//TODO handle the exception
+			}
+		}
 	}
+};
 </script>
 
 <style lang="scss">
-	page{
-			width: 100%;
+	::v-deep{
+		.uni-countdown__splitor{
+			>span{
+			   color: #fff !important;
+			}
+		}
 	}
-.course-box{
+	::v-deep{
+		.uni-countdown__number{
+			font-size: 24rpx !important;
+		}
+	}
+	.logding{
+		font-size: 35rpx;
+		border-top: 1rpx solid #f5f5f3;
+		border-bottom: 1rpx solid #f5f5f3;
+		text-align: center;
+		padding: 70rpx 0;
+		margin-top: 30rpx;
+		margin-bottom: 230rpx;
+		color: #666;
+	}
+page {
+	width: 100%;
+}
+.course-box {
 	padding-bottom: 100rpx;
-	.course-img{
+	.course-img {
 		width: 100%;
 		height: 420rpx;
 		position: relative;
-		.imageText{
+		.mask{
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			align-items: center;
+			font-size: 35rpx;
+			>text{
+				&:nth-child(2){
+					margin-top: 10rpx;
+				}
+			}
+		}
+		.imageText {
 			position: absolute;
 			right: 20rpx;
 			bottom: 15rpx;
 			background: rgba(0, 0, 0, 0.5);
 			color: #fff;
 			padding: 10rpx;
-			font-size: 28rpx
+			font-size: 28rpx;
 		}
-		>image{
+		> image {
 			width: 100%;
 			height: 100%;
 		}
 	}
-	.time{
+	.time {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -115,20 +213,20 @@
 		color: #fff;
 		padding: 20rpx 30rpx;
 		margin-top: 10rpx;
-		.time-left{
+		.time-left {
 			display: flex;
 			flex-direction: column;
-			.price{
-				.original-price{
+			.price {
+				.original-price {
 					font-size: 30rpx;
 					text-decoration: line-through;
 					margin-left: 15rpx;
 				}
 			}
-			.group-num{
+			.group-num {
 				padding: 10rpx;
 				background-color: #fff;
-			    border-radius: 10rpx;
+				border-radius: 10rpx;
 				color: #dc3545;
 				width: 100rpx;
 				font-size: 25rpx;
@@ -136,38 +234,31 @@
 				margin-top: 10rpx;
 			}
 		}
-		.time-right{
+		.time-right {
+			display: flex;
+			align-items: center;
 			font-size: 25rpx;
-			>text{
-				width: 52rpx;
-				height: 48rpx;
-				text-align: center;
-				line-height: 48rpx;
-				background-color: #c3152e;
-				padding: 10rpx;
-				margin: 0 5rpx;
-			}
 		}
 	}
-	.info{
+	.info {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
 		padding: 20rpx 30rpx;
 		border-bottom: 15rpx solid #f5f5f3;
-		.info-left{
+		.info-left {
 			line-height: 65rpx;
-			.title{
+			.title {
 				font-size: 38rpx;
 			}
-			.number{
+			.number {
 				font-size: 24rpx;
 				color: #a9a5a0;
 			}
-			.price-info{
+			.price-info {
 				font-size: 40rpx;
 				color: #dc3545;
-				.original{
+				.original {
 					font-size: 24rpx;
 					color: #a9a5a0;
 					text-decoration: line-through;
@@ -175,16 +266,16 @@
 			}
 		}
 	}
-	.course{
+	.course {
 		padding: 20rpx;
 		border-bottom: 3rpx solid #f5f5f3;
 	}
 }
 
-	::v-deep  img{
-		width: 100%;
-	}
-.footer-btn{
+::v-deep img {
+	width: 100%;
+}
+.footer-btn {
 	background-color: #fff;
 	position: fixed;
 	bottom: 0;
@@ -192,7 +283,7 @@
 	right: 0;
 	padding: 20rpx;
 	border-top: 1rpx solid #eee;
-	.btn{
+	.btn {
 		color: #fff;
 		background-color: #5ccc84;
 		height: 100rpx;

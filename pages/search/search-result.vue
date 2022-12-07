@@ -33,6 +33,10 @@
 				pageUrl:'/mobile/search'
 			}
 		},
+		//监听原生自定义输入框点击事件
+		onNavigationBarSearchInputClicked() {
+			this.navTo('/pages/search/search')
+		},
 		onLoad(options) {
 			// 需要固定swiper的高度 (需减去悬浮tabs的高度64rpx)
 			this.height = uni.getSystemInfoSync().windowHeight - uni.upx2px(64) + 'px'

@@ -22,7 +22,8 @@
 		},
 		methods:{
 			goToCourse(item){
-				this.navTo(`/pages/index/course?id=${item.id}`)
+				// this.navTo(`/pages/index/course?id=${item.id}`)
+				this.navTo(`/pages/index/course?obj=${encodeURIComponent(JSON.stringify(item))}`)
 			}
 		}
 	}

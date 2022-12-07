@@ -155,7 +155,7 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "我的优惠券",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }
@@ -192,8 +192,8 @@
             "path" : "pages/index/book-list",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false,
+                "navigationBarTitleText": "电子书列表",
+                "enablePullDownRefresh": true,
 				"navigationBarBackgroundColor": "#fff"
             }
             

@@ -1,6 +1,6 @@
 <template>
 	<view class="list-box">
-		<z-goods-item :isColumn="isColumn" :newLitStyle="newLitStyle" v-for="(item,index) in flashsaleList" :key="index" :item="item"></z-goods-item>
+		<z-goods-item @goToCourse="goToCourse(item)" :isColumn="isColumn" :newLitStyle="newLitStyle" v-for="(item,index) in flashsaleList" :key="index" :item="item"></z-goods-item>
 		<view class="footerInfo" v-if="isshow">---我也是有底线的---</view>
 	</view>
 </template>
@@ -25,6 +25,11 @@
 			}
 		},
 		methods: {
+			//跳转详情页
+			goToCourse(item){
+				// this.navTo(`/pages/index/course?id=${item.id}`)
+				this.navTo(`/pages/index/course?obj=${encodeURIComponent(JSON.stringify(item))}`)
+			},
 		async getflashsaleList(urls){
 				try{
 					let res = await indexApi.GetflashsaleListApi(urls,this.listParams)
