@@ -53,7 +53,6 @@
 				uni.navigateTo({url:"/pages/login/login"})
 			},
 			swiperChange(e){
-				console.log(e);
 				let index = e.detail.current
 				index===0? this.swiperParams.type = 'course' : this.swiperParams.type = 'column'
 				this.tabIndex = e.detail.current

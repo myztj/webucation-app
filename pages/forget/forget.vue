@@ -21,10 +21,10 @@ export default {
 	data() {
 		return {
 			formList: [
-				{ id: 1, placeholder: '请输入手机号', type: 'input',isReg:false, property: 'phone', icon: 'person', size: '20' },
-				{ id: 2, placeholder: '验证码', type: 'code',isReg:false, property: 'code', icon: 'locked', size: '20', option: this.sendCode },
-				{ id: 3, placeholder: '请输入密码', type: 'input',isReg:false, property: 'password', icon: 'locked', size: '20' },
-				{ id: 4, placeholder: '请输入确认密码', type: 'input',isReg:false, property: 'repassword', icon: 'locked', size: '20' }
+				{ id: 1, placeholder: '请输入手机号', style:'text', type: 'input',isReg:false, property: 'phone', icon: 'person', size: '20' },
+				{ id: 2, placeholder: '验证码', style:'text', type: 'code',isReg:false, property: 'code', icon: 'locked', size: '20', option: this.sendCode },
+				{ id: 3, placeholder: '请输入密码',style:'password', type: 'input',isReg:false, property: 'password', icon: 'locked', size: '20' },
+				{ id: 4, placeholder: '请输入确认密码',style:'password', type: 'input',isReg:false, property: 'repassword', icon: 'locked', size: '20' }
 			],
 			formData: {
 				phone: '',

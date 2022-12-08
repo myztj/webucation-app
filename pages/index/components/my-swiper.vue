@@ -1,7 +1,7 @@
 <template>
 	<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000">
 		<swiper-item v-for="(item,index) in swpierData" :key="index" @click="handlerSwiperGoto(item)">
-			<image :src="item.src||'../../../static/banner/banner1.png'" mode=""></image>
+			<image :src="item.src" mode=""></image>
 		</swiper-item>
 	</swiper>
 </template>
@@ -19,6 +19,8 @@
 		},
 		methods:{
 			handlerSwiperGoto(item){
+				console.log(item);
+				if(!item.url) return this.navTo(`/pages/index/course?obj=${encodeURIComponent(JSON.stringify(item))}`)
 				this.$emit('handlerSwiperGoto',item)
 			}
 		}

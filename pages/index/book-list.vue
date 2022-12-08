@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="book-box" v-for="(item,index) in bookList" :key="index">
+		<view class="book-box" v-for="(item,index) in bookList" :key="index" @click="goToBookDetail(item)">
 		   <z-book-item :item="item"></z-book-item>
 		</view>
 		<view class="info" v-if="isshowInfo">
@@ -37,7 +37,6 @@
 		},
 		//监听滚动条触底
 		async onReachBottom() {
-			console.log('到底了');
 			if(this.pageSize!==this.bookParams.page){
 				this.bookParams.page+=1
 				try{
@@ -55,6 +54,12 @@
 			}
 		},
 		methods: {
+			//跳转书籍详情
+			goToBookDetail(item){
+				console.log(item);
+				this.navTo('/pages/book-detail/book-detail?id='+item.id)
+			},
+			//获取数据列表
 			async getBooklist(){
 				try{
 					let res = await bookApi.getBookLIstApi(this.bookParams)

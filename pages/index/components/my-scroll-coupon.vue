@@ -7,6 +7,7 @@
 </template>
 
 <script>
+	import {mapState} from "vuex"
 	import indexApi from '@/api/indexApi.js';
 	export default{
 		data(){
@@ -14,13 +15,28 @@
 				couponList:[]
 			}
 		},
+		computed:{
+			...mapState(['userInfo'])
+		},
 		created() {
 			//获取优惠券列表
 			this.getCouponList();
 		},
+		watch:{
+			userInfo(){
+				//当用户发生改变时，重新获取优惠券列表
+				this.getCouponList();
+			}
+		},
 		methods:{
 			//领取优惠券
 			async getCoupon(item) {
+				if(!this.$store.state.userInfo.token){
+					uni.showToast({title:'请先登录',icon:"none"})
+					setTimeout(()=>{this.navTo('/pages/login/login')},500)
+					return false
+				}
+				if(!this.$store.state.userInfo.phone) return uni.showToast({title:'请先绑定手机号',icon:"none"})
 				if (item.isgetcoupon && !item.btn) return uni.showToast({ title: '已领取', icon: 'none' });
 				console.log(item);
 				try {

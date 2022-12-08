@@ -7,7 +7,7 @@
 				</view>
 				<view class="info">
 					<text v-if="!$store.getters.istoken">立即登录</text>
-					<text v-if="$store.getters.istoken">{{userName}}</text>
+					<text v-if="$store.getters.istoken">{{userName}}<text class="vip">永久会员</text></text>
 					<text>{{$store.getters.istoken?'暂无描述':'登录解锁更多功能'}}</text>
 				</view>
 			</view>
@@ -74,6 +74,11 @@ export default {
 					color: #fff;
 					margin-left: 30rpx;
 					>text{
+						.vip{
+							font-size: 24rpx;
+							color: yellow;
+							padding-left: 80rpx;
+						}
 						&:nth-child(2){
 							font-size: 25rpx;
 							margin-top: 20rpx;

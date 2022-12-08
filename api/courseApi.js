@@ -7,7 +7,7 @@ const getCourseApi = (urls="course",data)=>{
 		data
 	})
 }
-
+//收藏
 const userCollectApi = (url,data)=>{
 	return request({
 		url:`/mobile/${url}`,

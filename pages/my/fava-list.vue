@@ -1,7 +1,7 @@
 <template>
 	<view class="good-box">
 		<view v-if="collectList">
-			<z-goods-item :item="collectList"></z-goods-item>
+			<z-goods-item v-for="(item,index) in collectList" :key="index" :item="item.goods"></z-goods-item>
 		</view>
 		<view class="hint">没有更多数据了</view>
 	</view>
@@ -28,7 +28,8 @@
 				try{
 					let res =await goodsApi.getCollectListApi(this.orderparams)
 					console.log('res=>>>>>',res);
-					this.collectList = res.data.data.rows[0].goods
+					this.collectList = res.data.data.rows
+					console.log(res.data.data.rows);
 					uni.hideLoading()
 				}catch(e){
 					//TODO handle the exception

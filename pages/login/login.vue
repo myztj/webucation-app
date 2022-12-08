@@ -28,9 +28,9 @@
 					repassword:''
 				},
 				formList: [
-					{ id: 1,placeholder: '请输入用户名',type: 'input',isReg:false, property: 'username', icon: 'person', size: '20' },
-					{ id: 2,placeholder: '请输入密码',type: 'input',isReg:false, property: 'password', icon: 'locked', size: '20' },
-					{ id: 3,placeholder: '请输入确认密码',isReg:true, type: 'input', property: 'repassword', icon: 'locked', size: '20' }
+					{ id: 1,placeholder: '请输入用户名', style:'text',type: 'input',isReg:false, property: 'username', icon: 'person', size: '20' },
+					{ id: 2,placeholder: '请输入密码', style:'password',type: 'input',isReg:false, property: 'password', icon: 'locked', size: '20' },
+					{ id: 3,placeholder: '请输入确认密码',style:'password',isReg:true, type: 'input', property: 'repassword', icon: 'locked', size: '20' }
 				]
 			}
 		},

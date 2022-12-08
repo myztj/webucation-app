@@ -1,6 +1,6 @@
 <template>
 	<view class="list-box">
-		<my-list-box title="最新列表" :Allinfo="true">
+		<my-list-box title="最新列表" :Allinfo="true" @gotoList="gotoList">
 			<view class="list-item" v-for="(item,index) in newList" :key="index">
 				<z-goods-item @goToCourse="goToCourse(item)" :item="item" :newLitStyle="true"></z-goods-item>
 			</view>
@@ -22,8 +22,10 @@
 		},
 		methods:{
 			goToCourse(item){
-				// this.navTo(`/pages/index/course?id=${item.id}`)
 				this.navTo(`/pages/index/course?obj=${encodeURIComponent(JSON.stringify(item))}`)
+			},
+			gotoList(){
+				this.navTo('/pages/index/list?module=course')
 			}
 		}
 	}

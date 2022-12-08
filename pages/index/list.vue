@@ -71,8 +71,8 @@
 		},
 		async onLoad(item) {
 			try{
-				if(item.module=='live' || item.module=='column'){
-					if(item.module=='column') this.isColumn = false,this.newLitStyle = true
+				if(item.module=='live' || item.module=='column' || item.module=='course'){
+					if(item.module=='column' || item.module=='course') this.isColumn = false,this.newLitStyle = true
 					 this.urls = item.module+'/list'
 				}else{
 					 this.urls = item.module

@@ -2,7 +2,7 @@
 	<view class="course-box">
 		<view class="course-img">
 			<image :src="courseInfo.cover" mode=""></image>
-			<text class="imageText">音频</text>
+			<text class="imageText">{{imgText}}</text>
 			<view class="mask" v-if="courseInfo.type==='live'">
 				<text>开始时间：{{start_date}}</text>
 				<text>结束时间：{{end_date}}</text>
@@ -31,7 +31,7 @@
 			</view>
 			<view class="info-right">
 				<uni-icons type="star" size="30" @click="handledrCollect" v-if="!collecClass"></uni-icons>
-				<uni-icons color="red" type="star-filled" size="30" @click="handledrCollect" v-if="collecClass"></uni-icons>
+				<uni-icons color="#5ccc84" type="star-filled" size="30" @click="handledrCollect" v-if="collecClass"></uni-icons>
 			</view>
 		</view>
 		<view class="course">
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+	import {mapGetters} from "vuex"
 import uniCountdown from "@/uni_modules/uni-countdown/components/uni-countdown/uni-countdown.vue"
 import courseApi from '@/api/courseApi.js';
 export default {
@@ -64,11 +65,18 @@ export default {
 			collecClass:false
 		};
 	},
+	computed:{
+		...mapGetters(['istoken']),
+		imgText(){
+			if(this.courseInfo.type=='media') return '图文'
+			if(this.courseInfo.type=='video') return '视频'
+			if(this.courseInfo.type=='column'||!this.courseInfo.type) return '专栏'
+			if(this.courseInfo.type=='audio') return '音频'
+		}
+	},
 	onLoad(option) {
 		let data = JSON.parse(decodeURIComponent(option.obj))
 		console.log(data);
-		this.collecClass = uni.getStorageSync('collecClass')
-		console.log(this.collecClass);
 		this.start_date = new Date(data.start_time).toLocaleString()
 		this.end_date = new Date(data.end_time).toLocaleString()
 		//处理时间，方法在全局的mixins
@@ -79,7 +87,7 @@ export default {
 		if(!data.type && data.sub_count==0){
 			this.url = 'live';
 		}
-		this.courseIds.id = data.id;
+		this.courseIds.id = data.id || data.course_id;
 		if(data.group_id) this.courseIds.group_id = data.group_id;
 		if(data.column_id) this.courseIds.column_id = data.column_id;
 		if(data.flashsale_id) this.courseIds.flashsale_id = data.flashsale_id;
@@ -88,27 +96,29 @@ export default {
 	methods: {
 		//收藏
 		async handledrCollect(){
+			if(!this.istoken){
+				uni.showToast({title:'请先的登录',icon:'none'})
+				setTimeout(()=>{this.navTo('/pages/login/login')},500)
+				return false
+			}
 			let type = ''
 			if(this.courseInfo.type=='video' || this.courseInfo.type=='audio' || this.courseInfo.type=='media'){
 				type = 'course'
 			}else{
-				type = this.this.courseInfo.type
+				type = "column"
+			}
+			if(this.collecClass){
+				this.collectUrl = 'uncollect'
+			}else{
+				this.collectUrl = 'collect'
 			}
 			try{
 				let res = await courseApi.userCollectApi(this.collectUrl,{goods_id:this.courseInfo.id,type})
-				console.log(res);
-				this.collecClass = !this.collecClass
-				if(this.collecClass){
-					this.collectUrl = 'uncollect'
-				}else{
-					this.collectUrl = 'collect'
-				}
 				if(res.statusCode==200){
 					uni.showToast({title:res.data.data=='ok'?'收藏成功' : '已取消',icon:'none'})
 					this.collecClass = res.data.data=='ok'? true : false
+					this.getCourseinfo()
 				}
-				uni.setStorageSync('collecClass',this.collecClass)
-				// if(res.statusCode==400) uni.showToast({title:res.data.data,icon:'none'})
 			}catch(e){
 				//TODO handle the exception
 			}
@@ -119,6 +129,13 @@ export default {
 				let res = await courseApi.getCourseApi(this.url, this.courseIds);
 				console.log(res.data)
 				if (res.statusCode == 200) {
+					//判断后台返回的数据是否已经收藏
+					// console.log(res.data.data);
+					if(res.data.data.isfava){
+						this.collecClass = true
+					}else{
+						this.collecClass = false
+					}
 					this.courseInfo = res.data.data;
 					//动态修改标题栏标题
 					uni.setNavigationBarTitle({ title: this.courseInfo.title });

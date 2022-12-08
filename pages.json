@@ -204,7 +204,25 @@
             {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#fff"
+				"navigationBarBackgroundColor": "#fff",
+				"app-plus": {
+					"titleNView": {
+						"backgroundColor": "#fff",
+						"searchInput": {
+							"align": "center",
+							"placeholder": "输入搜索帖子",
+							"backgroundColor": "#f5f5f4"
+						},
+						"buttons": [
+							{
+								"float": "right",
+								"fontSrc": "/static/font/iconfont.ttf",
+								"text": "\ue649",
+								"fontSize": "45rpx"
+							}
+						]
+					}
+				}
             }
             
         }
@@ -264,6 +282,25 @@
             {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/book-detail/book-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/book/book",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#fff"
             }
             
         }

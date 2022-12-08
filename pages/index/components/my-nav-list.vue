@@ -18,9 +18,37 @@
 			}
 		},
 		methods:{
-			handlerNavGoto(item){
-				this.$emit('handlerNavGoto',item)
-			}
+			//导航栏点击事件
+			handlerNavGoto(item) {
+				console.log(item);
+				if (item.url) return uni.navigateTo({ url: '/pages/common/webview?url=' + item.url });
+				switch (item.module) {
+					case 'test':
+						uni.navigateTo({ url: '/pages/index/test-list' });
+						break;
+					case 'flashsale':
+						uni.navigateTo({ url: '/pages/index/list?module=flashsale' });
+						break;
+					case 'group':
+						uni.navigateTo({ url: '/pages/index/list?module=group' });
+						break;
+					case 'live':
+						uni.navigateTo({ url: '/pages/index/list?module=live' });
+						break;
+					case 'column':
+						uni.navigateTo({ url: '/pages/index/list?module=column' });
+						break;
+					case 'book':
+						uni.navigateTo({ url: '/pages/index/book-list' });
+						break;
+					case 'bbs':
+						uni.navigateTo({ url: '/pages/index/bbs' });
+						break;
+					default:
+						break;
+				}
+				// console.log(item);
+			},
 		}
 	}
 </script>

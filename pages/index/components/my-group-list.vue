@@ -41,7 +41,6 @@
 			//点击跳跳转课程页面
 			goToCourse(item){
 				console.log(item);
-				// this.navTo(`/pages/index/course?id=${item.id}&group_id=${item.group_id}&type=${item.type}`)
 				this.navTo(`/pages/index/course?obj=${encodeURIComponent(JSON.stringify(item))}`)
 			}
 		}

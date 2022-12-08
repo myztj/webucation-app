@@ -3,11 +3,11 @@
 	<block v-for="(item,index) in formList" :key="index">
 		<view class="username" v-if="item.type!=='code' && !item.isReg">
 			    <uni-icons :type="item.icon" :size="item.size"></uni-icons>
-				<input class="uni-input" v-model="value[item.property]" :placeholder="item.placeholder" />
+				<input class="uni-input" :type="item.style" v-model="value[item.property]" :placeholder="item.placeholder" />
 		</view>
 		<view class="code" v-if="item.type=='code' && !item.isReg">
 			    <uni-icons :type="item.icon" :size="item.size"></uni-icons>
-					<input class="uni-input" v-model="value[item.property]" :placeholder="item.placeholder"/>
+					<input class="uni-input" :type="item.style" v-model="value[item.property]" :placeholder="item.placeholder"/>
 					<view class="send" @click="sendCode">{{isStatus?subtext + 's': '发送'}}</view>
 		</view>
 	</block>
@@ -105,11 +105,16 @@
 			padding: 0 20rpx;
 			align-items: center;
 			background-color: #f5f5f5;
+			height: 100rpx;
 			border-radius: 8rpx;
 			margin-bottom: 50rpx;
-			>input{
+			.uni-input{
+				background-color: #f5f5f5;
+			    height: 100%;
+				border: none;
 				height: 100rpx;
 				margin-left: 20rpx;
+				outline: none;
 			}
 		}
 		.code{

@@ -2,7 +2,7 @@
 	<view class="listBox">
 		<view class="group-title">
 			<h3>{{title}}</h3>
-			<text class="Allinfo" v-if="Allinfo">查看全部</text>
+			<text class="Allinfo" v-if="Allinfo" @click="gotoList">查看全部</text>
 			</view>
 		<slot></slot>
 	</view>
@@ -18,6 +18,11 @@
 			Allinfo:{
 				type:Boolean,
 				default:false
+			}
+		},
+		methods:{
+			gotoList(){
+				this.$emit('gotoList')
 			}
 		}
 	}
