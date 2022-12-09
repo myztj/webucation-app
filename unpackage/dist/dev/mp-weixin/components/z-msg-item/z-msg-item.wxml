@@ -1,0 +1,1 @@
+<view class="msg"><view class="msg-item"><view class="content">{{item.content}}</view><view class="time">{{item.created_time}}</view></view><view class="hint">没有更多数据了</view></view>

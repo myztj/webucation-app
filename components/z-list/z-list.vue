@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="info"  @click="item.option">
+		<view class="info"  @click="item.option" :class="{'activeBb':isBb}">
 			<view class="info-left">
 				<text>{{item.text}}</text>
 			</view>
@@ -11,8 +11,8 @@
 			    <text v-if="item.sex && userInfo.sex!=='未知'">{{$store.state.userInfo.sex}}</text>
 			    <text v-if="item.sex && userInfo.sex=='未知'">未知</text>
 			    <text v-if="item.mobile">{{userInfo.phone}}</text>
-				<text v-if="item.icon" class="iconfont icon-jinru"></text>
-				<text v-if="item.word">{{item.word}}</text>
+				<text v-if="item.word" :class="{'activeColor':item.isColor,'activeText':item.isText}">{{item.word}}</text>
+				<text v-if="item.icon" :class="{'activeIcon':item.isIconColor}" class="iconfont icon-jinru"></text>
 				<input v-if="item.input" type="text" :placeholder="item.placeholder" v-model="value[item.property]" />
 			</view>
 		</view>
@@ -37,6 +37,10 @@
 			item:{
 				type:Object,
 				default:()=>{}
+			},
+			isBb:{
+				type:false,
+				default:false
 			}
 		},
 		name:"z-list",
@@ -89,10 +93,14 @@
 	.info-right{
 		position: relative;
 		display: flex;
+		align-items: center;
 		>image{
 			width: 80rpx;
 			height: 80rpx;
 			border-radius: 50%;
+		}
+		.iconfont{
+			margin-left: 20rpx;
 		}
 		.plh{
 			position: absolute;
@@ -104,5 +112,17 @@
 			text-align: right;
 		}
 	}
+}
+.activeColor{
+	color: #5ccc84 !important;
+}
+.activeText{
+	font-size: 24rpx !important;
+}
+.activeIcon{
+	color: rgb(187, 187, 187) !important;
+}
+.activeBb{
+	border-bottom: 1rpx solid #f5f5f3 !important;
 }
 </style>

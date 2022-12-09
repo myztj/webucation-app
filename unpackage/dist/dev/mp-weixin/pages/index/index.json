@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "uni-app",
+  "usingComponents": {
+    "z-nav-search": "/components/z-nav-search/z-nav-search",
+    "my-swiper": "/pages/index/components/my-swiper",
+    "my-nav-list": "/pages/index/components/my-nav-list",
+    "my-group-list": "/pages/index/components/my-group-list",
+    "my-new-list": "/pages/index/components/my-new-list",
+    "my-hot-list": "/pages/index/components/my-hot-list",
+    "my-scroll-coupon": "/pages/index/components/my-scroll-coupon"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "在学",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-card-nav": "/components/z-card-nav/z-card-nav"
+  }
+}

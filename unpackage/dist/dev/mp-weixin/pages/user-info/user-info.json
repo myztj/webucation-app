@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "编辑资料",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-list": "/components/z-list/z-list"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#5ae5d6",
+  "usingComponents": {
+    "z-form-head": "/pages/login/components/z-login-head",
+    "z-form-box": "/pages/login/components/z-login-box",
+    "z-form-list": "/pages/login/components/z-form-list"
+  }
+}

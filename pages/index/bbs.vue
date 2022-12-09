@@ -1,9 +1,8 @@
 <template>
 	<view class="bbs-box">
-		<scroll-view style="width: 100%;" scroll-x="true">
+		<scroll-view style="width: 100%;" scroll-x="true" @scrolltolower="handelScrollLoad">
 			<view class="scrollView p-3">
-				<view class="scroll-item px-3 py-1 mr-1 active">全部</view>
-				<view class="scroll-item px-3 py-1 mr-1" v-for="item in bbsNavList" :key="item.id">{{item.title}}</view>
+				<view class="scroll-item px-3 py-1 mr-1" :class="{'active':index==activeIndex}" v-for="(item,index) in bbsNavList" :key="item.id" @click="handelNavItem(index,item)">{{item.title}}</view>
 			</view>
 		</scroll-view>
 		<!-- 导航栏 -->
@@ -25,7 +24,7 @@
 						<view class="userinfo-title">
 							<image :src="item.user.avatar" mode=""></image>
 							<view class="userinfo-name">
-								<text>{{item.user.name}}</text>
+								<text style="color: #007bff; font-size: 33rpx; font-weight: bold;">{{item.user.name}}</text>
 								<text>{{item.user.sex}}</text>
 							</view>
 						</view>
@@ -62,20 +61,45 @@ export default {
 			bbsParams:{
 				page:1,
 			    bbs_id:0,
-			}
+			},
+			navListPage:0,
+			activeIndex:0
 		};
 	},
-	onLoad() {
-		this.getBbsNavList()
-		this.getBbsList()
+	async onLoad() {
+		try{
+			let res = await this.getBbsNavList()
+			this.bbsNavList = res.data.data.rows
+			this.bbsNavList.unshift({id:'881',title:'全部'})
+			this.getBbsList()
+		}catch(e){
+			//TODO handle the exception
+		}
 	},
 	methods: {
-		
+		//点击每个Nav按钮
+		handelNavItem(index,item){
+			this.activeIndex = index
+			console.log(item,index);
+		},
+		//顶部滑动加载
+		async handelScrollLoad(){
+			try{
+				if(this.navListPage!==this.bbsParams.page){
+					this.bbsParams.page+=1
+					let res = await this.getBbsNavList()
+					this.navListPage = Math.ceil(res.data.data.count/10)
+					this.bbsNavList = this.bbsNavList.concat(res.data.data.rows)
+				}
+			}catch(e){
+				//TODO handle the exception
+			}
+		},
 		async getBbsNavList(){
 			try{
 				let res = await bbsApi.getBbsNavListApi(this.bbsParams.page)
 				console.log(res);
-				this.bbsNavList = res.data.data.rows
+				return res
 			}catch(e){
 				//TODO handle the exception
 			}
@@ -131,11 +155,12 @@ export default {
 }
 .list-box{
 	.list-item{
-        padding: 40rpx 30rpx;
+        padding: 30rpx;
 		border-bottom: 15rpx solid #f5f5f3;
 		.item-up{
 			.userinfo{
 				display: flex;
+				align-items: center;
 				justify-content: space-between;
 				.tbg{
 					background-color: #ffc107;
@@ -147,8 +172,9 @@ export default {
 				}
 				.userinfo-title{
 					display: flex;
+					flex-shrink: 0;
 					>image{
-						padding-right: 15rpx;
+						margin-right: 15rpx;
 						width: 74rpx;	
 						height: 74rpx;
 						border-radius: 50%;

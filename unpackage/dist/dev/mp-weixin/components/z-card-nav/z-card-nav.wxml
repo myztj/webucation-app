@@ -1,0 +1,1 @@
+<view><view class="nav-list"><view class="nav-item"><text class="iconfont icon-OrderHistory"></text><text class="text">帖子</text></view><view class="nav-item"><text class="iconfont icon-pinglun2"></text><text class="text">考试</text></view><view class="nav-item"><text class="iconfont icon-shoucang1"></text><text class="text">电子书</text></view></view></view>

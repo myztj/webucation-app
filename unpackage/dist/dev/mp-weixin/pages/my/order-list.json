@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的订单",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-order-item": "/components/z-order-item/z-order-item"
+  }
+}

@@ -1,0 +1,1 @@
+<view class="msg-box"><block wx:for="{{myInfoList}}" wx:for-item="item" wx:for-index="index" wx:key="id"><z-msg-item vue-id="{{'981fd0fc-1-'+index}}" item="{{item}}" bind:__l="__l"></z-msg-item></block></view>

@@ -2,12 +2,13 @@
 	<view>
 		<view class="coupon-list">
 			<view class="coupon-item">
-				<view class="coupon-left" :class="{'reduce':item.isgetcoupon}">
+				<view class="coupon-left" :class="{'reduce':item.isgetcoupon,'activeGray':item.goods_id!=goodsId && goodsId}">
 					<view class="price">￥{{item.price}}</view>
 					<view class="title" v-if="item.value">{{item.type=='course'?'适用课程':'适用专栏'}}: {{item.value.title}}</view>
 					<view class="title" v-if="!item.value">{{item.type=='course'?'适用课程':'适用专栏'}}: {{item.title}}</view>
 				</view>
-				<view class="coupon-right" hover-class="active" v-if="!item.value">立即使用</view>
+				<view class="coupon-right":class="{'activeGray':item.goods_id!=goodsId && goodsId}" hover-class="active" v-if="!item.value && goodsId" @click="immediateUse(item)">{{item.goods_id==goodsId?'立即使用':'不可用'}}</view>
+				<view class="coupon-right":class="{'activeGray':item.goods_id!=goodsId && goodsId}" hover-class="active" v-if="!item.value && !goodsId">立即使用</view>
 				<view @click="getCoupon(item)" class="coupon-right reduce-width" :class="{'reduce':item.isgetcoupon}" hover-class="active" v-if="item.value">{{item.isgetcoupon?'已领取':'领取'}}</view>
 			</view>
 		</view>
@@ -32,6 +33,10 @@
 					used:0,
 					btn:"立即使用"
 				})
+			},
+			goodsId:{
+				type:[Number,String],
+				default:0
 			}
 		},
 		data() {
@@ -42,6 +47,11 @@
 		methods:{
            getCoupon(item){
 			   this.$emit('getCoupon',item)
+		   },
+		   //立即使用
+		   immediateUse(item){
+			   if(!this.goodsId) return
+			   this.$emit('immediateUse',item)
 		   }
 		}
 	}
@@ -82,5 +92,9 @@
 }
 .reduce-width{
 	width: 150rpx !important;
+}
+.activeGray{
+	z-index: 99999;
+	background-color: #cccccc !important;
 }
 </style>

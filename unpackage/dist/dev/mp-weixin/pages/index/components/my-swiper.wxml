@@ -1,0 +1,1 @@
+<swiper indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{1000}}"><block wx:for="{{swpierData}}" wx:for-item="item" wx:for-index="index" wx:key="index"><swiper-item data-event-opts="{{[['tap',[['handlerSwiperGoto',['$0'],[[['swpierData','',index]]]]]]]}}" bindtap="__e"><image src="{{item.src}}" mode></image></swiper-item></block></swiper>

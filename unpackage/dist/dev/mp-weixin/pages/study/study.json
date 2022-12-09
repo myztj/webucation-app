@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "学习进度",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-card-nav": "/components/z-card-nav/z-card-nav",
+    "me-tbs": "/uni_modules/me-tabs/me-tabs",
+    "mescroll-item": "/pages/study/mescroll-swiper-item"
+  }
+}

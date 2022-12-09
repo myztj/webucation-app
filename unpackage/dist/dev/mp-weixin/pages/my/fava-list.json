@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "收藏列表",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-goods-item": "/components/z-goods-item/z-goods-item"
+  }
+}

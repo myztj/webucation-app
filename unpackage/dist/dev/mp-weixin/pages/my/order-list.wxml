@@ -1,0 +1,1 @@
+<view><block wx:for="{{myOrderList}}" wx:for-item="item" wx:for-index="index" wx:key="id"><z-order-item vue-id="{{'1def838f-1-'+index}}" item="{{item}}" bind:__l="__l"></z-order-item></block><block wx:if="{{!myOrderList.length}}"><view class="order-show">你还有没订单，去转转吧</view></block></view>

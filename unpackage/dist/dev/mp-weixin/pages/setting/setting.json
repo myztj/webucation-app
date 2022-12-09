@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "我的设置",
+  "enablePullDownRefresh": false,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-list": "/components/z-list/z-list"
+  }
+}

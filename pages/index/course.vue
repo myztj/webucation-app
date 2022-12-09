@@ -8,13 +8,13 @@
 				<text>结束时间：{{end_date}}</text>
 			</view>
 		</view>
-		<view class="time" v-if="days && courseInfo.title && courseInfo.type!=='live'">
+		<view class="time" v-if="courseInfo.group">
 			<view class="time-left">
 				<view class="price">
-					<text>￥0.10</text>
-					<text class="original-price">￥10.00</text>
+					<text>￥{{courseInfo.price}}</text>
+					<text class="original-price">￥{{courseInfo.t_price}}</text>
 				</view>
-				<view class="group-num">2人拼团</view>
+				<view class="group-num">{{courseInfo.group.p_num}}人拼团</view>
 			</view>
 			<view class="time-right">
 				<text class="time-text">距结束</text><uni-countdown :font-size="15" :day="days" :hour="hr" :minute="min" :second="sec" color="#FFFFFF" background-color="#c3152e" />
@@ -34,13 +34,33 @@
 				<uni-icons color="#5ccc84" type="star-filled" size="30" @click="handledrCollect" v-if="collecClass"></uni-icons>
 			</view>
 		</view>
+		<!-- 拼团 -->
+		<view class="group-box" v-if="groupData">
+			<view class="group" v-for="(item,index) in groupData" :key="index">
+				<view class="group-title">{{item.num}}人正在拼单。可直接参与</view>
+				<view class="group-info" v-for="(ele,inx) in item.users" :key="index">
+					<view class="user-head">
+						<image :src="ele.avatar" mode=""></image>
+					</view>
+					<view class="user-name">{{ele.username}}</view>
+					<view class="group-content">
+						<view class="num-ok">还差<text>{{item.num}}人</text>拼成</view>
+						<view class="time-ok">剩余 <uni-countdown :show-day="false" :hour="groupTime.grouphr" :minute="groupTime.groupmin" :second="groupTime.groupsec" /></view>
+					</view>
+					<view class="goto-group">去拼单</view>
+				</view>
+			</view>
+		</view>
+		<!-- 拼团 -->
+		<!-- 课程介绍 -->
 		<view class="course">
 			<view class="course-title">课程简介</view>
-			<view class="" v-if="!courseInfo.content" v-html="courseInfo.try"></view>
-			<view class="" v-if="courseInfo.content" v-html="courseInfo.content"></view>
+			<view class="course-context" v-if="!courseInfo.content" v-html="courseInfo.try"></view>
+			<view class="course-context" v-if="courseInfo.content" v-html="courseInfo.content"></view>
 			<view class="logding" v-if="!courseInfo.title">加载中...</view>
 		</view>
-		<view v-if="courseInfo.title" class="footer-btn"><button class="btn" type="default">立即拼团￥5.00</button></view>
+		<view v-if="courseInfo.group" class="footer-btn"><button class="btn" type="default" @click="goToGroup">立即拼团￥{{courseInfo.price}}</button></view>
+		<view v-if="!courseInfo.group" class="footer-btn"><button class="btn" type="default" @click="goToCourseInfo">立即订购￥{{courseInfo.price}}</button></view>
 	</view>
 </template>
 
@@ -62,7 +82,9 @@ export default {
 			start_date:'',
 			end_date:'',
 			collectUrl:'collect',
-			collecClass:false
+			collecClass:false,
+			groupData:null,
+			pageType:''
 		};
 	},
 	computed:{
@@ -76,7 +98,6 @@ export default {
 	},
 	onLoad(option) {
 		let data = JSON.parse(decodeURIComponent(option.obj))
-		console.log(data);
 		this.start_date = new Date(data.start_time).toLocaleString()
 		this.end_date = new Date(data.end_time).toLocaleString()
 		//处理时间，方法在全局的mixins
@@ -92,8 +113,31 @@ export default {
 		if(data.column_id) this.courseIds.column_id = data.column_id;
 		if(data.flashsale_id) this.courseIds.flashsale_id = data.flashsale_id;
 		this.getCourseinfo();
+		//获取拼团数据
+		this.getUserGroupData()
+		
 	},
 	methods: {
+		//立即拼团
+		goToGroup(){
+			
+		},
+		//立即购买
+		goToCourseInfo(){
+			if(!this.istoken) return this.navTo('/pages/login/login')
+			this.navTo(`/pages/create-order/create-order?id=${this.courseIds.id}&type=${this.pageType}`)
+		},
+		//获取用户拼团数据
+		async getUserGroupData(){
+			try{
+				let res = await courseApi.getGroupDateApi({page:1,group_id:this.courseIds.group_id})
+				console.log(res);
+				this.groupData = res.data.data.rows
+				this.formGroupDate(this.groupData[0].created_time)
+			}catch(e){
+				//TODO handle the exception
+			}
+		},
 		//收藏
 		async handledrCollect(){
 			if(!this.istoken){
@@ -101,19 +145,13 @@ export default {
 				setTimeout(()=>{this.navTo('/pages/login/login')},500)
 				return false
 			}
-			let type = ''
-			if(this.courseInfo.type=='video' || this.courseInfo.type=='audio' || this.courseInfo.type=='media'){
-				type = 'course'
-			}else{
-				type = "column"
-			}
 			if(this.collecClass){
 				this.collectUrl = 'uncollect'
 			}else{
 				this.collectUrl = 'collect'
 			}
 			try{
-				let res = await courseApi.userCollectApi(this.collectUrl,{goods_id:this.courseInfo.id,type})
+				let res = await courseApi.userCollectApi(this.collectUrl,{goods_id:this.courseInfo.id,type:this.pageType})
 				if(res.statusCode==200){
 					uni.showToast({title:res.data.data=='ok'?'收藏成功' : '已取消',icon:'none'})
 					this.collecClass = res.data.data=='ok'? true : false
@@ -127,7 +165,7 @@ export default {
 		async getCourseinfo() {
 			try {
 				let res = await courseApi.getCourseApi(this.url, this.courseIds);
-				console.log(res.data)
+				console.log(res)
 				if (res.statusCode == 200) {
 					//判断后台返回的数据是否已经收藏
 					// console.log(res.data.data);
@@ -137,6 +175,11 @@ export default {
 						this.collecClass = false
 					}
 					this.courseInfo = res.data.data;
+					if(this.courseInfo.type=='video' || this.courseInfo.type=='audio' || this.courseInfo.type=='media'){
+						this.pageType = 'course'
+					}else{
+						this.pageType = "column"
+					}
 					//动态修改标题栏标题
 					uni.setNavigationBarTitle({ title: this.courseInfo.title });
 				} else if (res.statusCode == 404) {
@@ -183,6 +226,64 @@ export default {
 page {
 	width: 100%;
 }
+// 拼单css
+.group{
+	.group-title{
+		padding: 20rpx;
+		border-bottom: 1rpx solid #f5f5f3;
+	}
+	.group-info{
+		display: flex;
+		align-items: center;
+		padding: 30rpx 20rpx;
+		border-bottom: 5rpx solid #f5f5f3;
+		.goto-group{
+			padding: 10rpx 30rpx;
+			background-color: #007aff;
+			border-radius: 10rpx;
+			color: #fff;
+			font-size: 28rpx;
+			margin-left: 20rpx;
+		}
+		.group-content{
+			line-height: 60rpx;
+			.time-ok{
+				display: flex;
+				font-size: 28rpx;
+				color: #666;
+			::v-deep .uni-countdown__splitor > span{
+						color: #000 !important;
+						padding: 0 10rpx;
+				}
+				// >text{
+				// 	font-size: 24rpx;
+				// 	padding: 0 20rpx;
+				// }
+			}
+			.num-ok{
+				font-size: 30rpx;
+				>text{
+					color: red;
+				}
+			}
+		}
+		.user-name{
+			margin-left: 20rpx;
+		}
+		.user-head{
+			width: 80rpx;
+			height: 80rpx;
+			border-radius: 50%;
+			background-color: #343a40;
+			>image{
+				width:100%;
+				height: 100%;
+				border-radius: 50%;
+			}
+		}
+	}
+}
+// 拼单css
 .course-box {
 	padding-bottom: 100rpx;
 	.course-img {
@@ -284,8 +385,13 @@ page {
 		}
 	}
 	.course {
-		padding: 20rpx;
-		border-bottom: 3rpx solid #f5f5f3;
+		.course-context{
+			padding: 20rpx;
+		}
+		.course-title{
+			padding: 20rpx;
+			border-bottom: 3rpx solid #f5f5f3;
+		}
 	}
 }
 

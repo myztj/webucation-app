@@ -1,0 +1,1 @@
+<view class="login-head"><text data-event-opts="{{[['tap',[['handelnavto',['$event']]]]]}}" class="iconfont icon-fanhui" bindtap="__e"></text></view>

@@ -25,7 +25,7 @@
 					<view class="" v-if="newLitStyle">
 						<text class="price" style="color: red;" v-if="item.price!='0.00'">{{item.flashsale_id?'秒杀价：':''}}<text style="font-size: 35rpx;">￥{{item.price}}</text></text>
 						<text class="price" style="color: red;" v-if="item.price=='0.00'">免费<text style="font-size: 35rpx;">￥{{item.t_price}}</text></text>
-						<text class="t-price" style="font-size: 24rpx; color: #a9a5a0;">￥{{item.t_price}}</text>
+						<text class="t-price" style="font-size: 24rpx; color: #a9a5a0;" v-if="item.t_price">￥{{item.t_price}}</text>
 					</view>
 				</view>
 			</view>

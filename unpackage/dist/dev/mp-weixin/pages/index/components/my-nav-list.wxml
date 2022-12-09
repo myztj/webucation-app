@@ -1,0 +1,1 @@
+<view class="nav-box"><view class="nav-list"><block wx:for="{{navData}}" wx:for-item="item" wx:for-index="index" wx:key="index"><view data-event-opts="{{[['tap',[['handlerNavGoto',['$0'],[[['navData','',index]]]]]]]}}" class="nav-item" bindtap="__e"><image src="{{item.src||'../../../static/logo.png'}}" mode></image><text>{{item.name}}</text></view></block></view></view>

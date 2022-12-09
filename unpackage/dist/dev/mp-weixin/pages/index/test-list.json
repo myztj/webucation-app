@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "考场列表",
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-test-item": "/components/z-test-item/z-test-item"
+  }
+}

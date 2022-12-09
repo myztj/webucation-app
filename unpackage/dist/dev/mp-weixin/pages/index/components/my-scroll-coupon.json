@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "z-coupon-item": "/components/z-coupon-item/z-coupon-item"
+  },
+  "component": true
+}

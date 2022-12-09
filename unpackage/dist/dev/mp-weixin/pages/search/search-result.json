@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "fff",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "me-tbas": "/uni_modules/me-tabs/me-tabs",
+    "mescroll-item": "/pages/study/mescroll-swiper-item"
+  }
+}

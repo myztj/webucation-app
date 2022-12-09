@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "z-goods-item": "/components/z-goods-item/z-goods-item",
+    "my-list-box": "/pages/index/components/my-list-box"
+  }
+}

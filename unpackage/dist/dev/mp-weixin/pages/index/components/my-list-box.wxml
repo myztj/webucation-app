@@ -1,0 +1,1 @@
+<view class="listBox"><view class="group-title"><view class="_h3">{{title}}</view><block wx:if="{{Allinfo}}"><text data-event-opts="{{[['tap',[['gotoList',['$event']]]]]}}" class="Allinfo" bindtap="__e">查看全部</text></block></view><slot></slot></view>

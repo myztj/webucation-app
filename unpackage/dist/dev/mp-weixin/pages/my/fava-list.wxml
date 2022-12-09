@@ -1,0 +1,1 @@
+<view class="good-box"><block wx:if="{{collectList}}"><view><block wx:for="{{collectList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><z-goods-item vue-id="{{'581f97ab-1-'+index}}" item="{{item.goods}}" bind:__l="__l"></z-goods-item></block></view></block><view class="hint">没有更多数据了</view></view>

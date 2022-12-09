@@ -1,0 +1,1 @@
+<view><block wx:for="{{userParams}}" wx:for-item="item" wx:for-index="index" wx:key="id"><z-list vue-id="{{'133a9744-1-'+index}}" item="{{item}}" bind:__l="__l"></z-list></block><block wx:if="{{token}}"><button class="btn" type="default" data-event-opts="{{[['tap',[['onsubmitUserIfo',['$event']]]]]}}" bindtap="__e">退出登录</button></block></view>

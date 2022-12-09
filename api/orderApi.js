@@ -28,8 +28,28 @@ const getUseCouponApi = (data)=>{
 		data
 	})
 }
+
+//获取立即购买订单详情
+const getPayListApi = (data)=>{
+	return request({
+		url:'/mobile/goods/read',
+		method:'GET',
+		data
+	})
+}
+
+//差查询是否有优惠券
+const findGoodsCouponApi = (data)=>{
+	return request({
+		url:'/mobile/user_coupon/count',
+		method:'GET',
+		data
+	})
+}
 export default {
 	getMyOrderListApi,
 	getMyInfoApi,
-	getUseCouponApi
+	getUseCouponApi,
+	getPayListApi,
+	findGoodsCouponApi
 }

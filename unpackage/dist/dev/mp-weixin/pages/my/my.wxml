@@ -1,0 +1,1 @@
+<view class="my-box animated fadeInDown"><view class="my-head bg-main"><i-user-info vue-id="704e9d00-1" bind:__l="__l"></i-user-info><z-mynav-list vue-id="704e9d00-2" bind:__l="__l"></z-mynav-list></view><view class="list-box"><z-row-list vue-id="704e9d00-3" bind:__l="__l"></z-row-list></view></view>

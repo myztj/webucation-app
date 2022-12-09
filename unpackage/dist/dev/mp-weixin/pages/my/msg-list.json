@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "消息列表",
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-msg-item": "/components/z-msg-item/z-msg-item"
+  }
+}

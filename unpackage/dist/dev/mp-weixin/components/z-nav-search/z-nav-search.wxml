@@ -1,0 +1,1 @@
+<view><view data-event-opts="{{[['tap',[['navTo',['/pages/search/search']]]]]}}" class="nav-box" bindtap="__e"><uni-icons vue-id="66ce4fe2-1" type="search" color="#9b9793" size="22" bind:__l="__l"></uni-icons><input class="myinput" disabled="true" type="text" placeholder="{{serchData.placeholder}}"/></view></view>

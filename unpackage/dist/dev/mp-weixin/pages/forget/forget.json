@@ -1,0 +1,9 @@
+{
+  "enablePullDownRefresh": false,
+  "backgroundColor": "#5ae5d6",
+  "usingComponents": {
+    "z-login-box": "/pages/login/components/z-login-box",
+    "z-form-lsit": "/pages/login/components/z-form-list",
+    "z-login-head": "/pages/login/components/z-login-head"
+  }
+}

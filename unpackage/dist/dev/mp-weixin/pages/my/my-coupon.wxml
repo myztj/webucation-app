@@ -1,0 +1,1 @@
+<view class="mycoupon-box"><block wx:for="{{couponList}}" wx:for-item="item" wx:for-index="index" wx:key="index"><z-coupon-item vue-id="{{'04433ee9-1-'+index}}" item="{{item}}" goodsId="{{goodsId}}" data-event-opts="{{[['^immediateUse',[['immediateUse']]]]}}" bind:immediateUse="__e" bind:__l="__l"></z-coupon-item></block><view class="hint">没有更多数据了</view></view>

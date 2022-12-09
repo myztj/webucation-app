@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/study/study",
+    "pages/my/my",
+    "pages/login/login",
+    "pages/my/school",
+    "pages/forget/forget",
+    "pages/user-info/user-info",
+    "pages/bind-phone/bind-phone",
+    "pages/setting/setting",
+    "pages/user-safe/user-safe",
+    "pages/my/order-list",
+    "pages/my/msg-list",
+    "pages/my/fava-list",
+    "pages/my/my-coupon",
+    "pages/common/webview",
+    "pages/index/test-list",
+    "pages/index/list",
+    "pages/index/book-list",
+    "pages/index/bbs",
+    "pages/search/search",
+    "pages/search/search-result",
+    "pages/index/course",
+    "pages/book-detail/book-detail",
+    "pages/book/book",
+    "pages/create-order/create-order"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "backgroundColor": "#f7f7fa",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/index1.png",
+        "selectedIconPath": "static/tabbar/index1_selected.png"
+      },
+      {
+        "pagePath": "pages/study/study",
+        "text": "学习",
+        "iconPath": "static/tabbar/learn.png",
+        "selectedIconPath": "static/tabbar/learn_selected.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "static/tabbar/home.png",
+        "selectedIconPath": "static/tabbar/home_selected.png"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

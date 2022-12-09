@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "秒杀列表",
+  "enablePullDownRefresh": true,
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "z-goods-item": "/components/z-goods-item/z-goods-item"
+  }
+}
