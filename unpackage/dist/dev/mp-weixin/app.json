@@ -24,7 +24,8 @@
     "pages/index/course",
     "pages/book-detail/book-detail",
     "pages/book/book",
-    "pages/create-order/create-order"
+    "pages/create-order/create-order",
+    "pages/test-detail/test-detail"
   ],
   "subPackages": [],
   "window": {

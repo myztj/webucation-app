@@ -59,8 +59,9 @@
 			<view class="course-context" v-if="courseInfo.content" v-html="courseInfo.content"></view>
 			<view class="logding" v-if="!courseInfo.title">加载中...</view>
 		</view>
-		<view v-if="courseInfo.group" class="footer-btn"><button class="btn" type="default" @click="goToGroup">立即拼团￥{{courseInfo.price}}</button></view>
-		<view v-if="!courseInfo.group" class="footer-btn"><button class="btn" type="default" @click="goToCourseInfo">立即订购￥{{courseInfo.price}}</button></view>
+		<view v-if="courseInfo.group && courseInfo.price!='0.00'" class="footer-btn"><button class="btn" type="default" @click="goToGroup">立即拼团￥{{courseInfo.price}}</button></view>
+		<view v-if="!courseInfo.group && courseInfo.price!='0.00'" class="footer-btn"><button class="btn" type="default" @click="goToCourseInfo">立即订购￥{{courseInfo.price}}</button></view>
+		<view v-if="!courseInfo.group && courseInfo.price=='0.00'" class="footer-btn"><button class="btn" type="default" @click="goToStudy">立即学习</button></view>
 	</view>
 </template>
 
@@ -118,6 +119,10 @@ export default {
 		
 	},
 	methods: {
+		//立即学习
+		goToStudy(){
+			
+		},
 		//立即拼团
 		goToGroup(){
 			

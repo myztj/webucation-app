@@ -5191,9 +5191,29 @@ var getGroupDateApi = function getGroupDateApi(data) {
       groupTime: {
         grouphr: '',
         groupmin: '',
-        groupsec: '' } };
+        groupsec: '' },
 
-
+      timer: "", //定时器
+      isEndTime: "01:00:00" //倒计时要有个初始值
+    };
+  },
+  onLoad: function onLoad() {var _this = this;
+    this.timer = setInterval(function () {
+      var allTime = 0;
+      var h = _this.isEndTime.substring(0, 2);
+      var m = _this.isEndTime.substring(3, 5);
+      var s = _this.isEndTime.substring(6, 8);
+      allTime = Number(h) * 60 * 60 + Number(m) * 60 + Number(s);
+      if (allTime <= 0) return clearInterval(_this.timer); //执行倒计时结束逻辑
+      allTime--;
+      h = parseInt(allTime / 3600) < 10 ? '0' + String(parseInt(allTime / 3600)) : parseInt(allTime / 3600);
+      m = parseInt(allTime / 60) < 10 ? '0' + String(parseInt(allTime / 60)) : parseInt(allTime / 60);
+      s = allTime % 60 < 10 ? '0' + String(allTime % 60) : allTime % 60;
+      _this.isEndTime = h + ":" + m + ":" + s;
+    }, 1000);
+  },
+  onUnload: function onUnload() {
+    clearInterval(this.timer);
   },
   methods: {
     //全局页面跳转
@@ -14305,6 +14325,29 @@ WxsMixin;exports.default = _default;
 /***/ (function(module, exports) {
 
 
+
+/***/ }),
+
+/***/ 506:
+/*!*********************************************!*\
+  !*** D:/Desktop/实训3/edn-app/api/testApi.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _request = _interopRequireDefault(__webpack_require__(/*! @/utils/request.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+var getTestTopicApi = function getTestTopicApi(data) {
+  return (0, _request.default)({
+    url: '/mobile/testpaper/read',
+    method: 'GET',
+    data: data });
+
+};var _default =
+
+{
+  getTestTopicApi: getTestTopicApi };exports.default = _default;
 
 /***/ }),
 

@@ -13,8 +13,8 @@
 				</view>
 			</view>
 			<view class="item-down">
-				<view class="btn">
-					参加考试
+				<view class="btn" :class="{'active':item.is_test}" @click="goToexam(item)">
+					{{item.is_test?'考试完毕':'参加考试'}}
 				</view>
 			</view>
 		</view>
@@ -34,6 +34,13 @@
 			return {
 				
 			};
+		},
+		methods:{
+			//参加考试
+			goToexam(item){
+				if(item.is_test) return
+				this.$emit('goToexam',item)
+			}
 		}
 	}
 </script>
@@ -93,5 +100,8 @@
 			line-height: 80rpx;
 		}
 	}
+}
+.active{
+	background-color: #ccc !important;
 }
 </style>

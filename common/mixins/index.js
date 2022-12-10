@@ -9,8 +9,28 @@ export default {
 				grouphr:'',
 				groupmin:'',
 				groupsec:'',
-			}
+			},
+			timer:"",				//定时器
+			isEndTime:"01:00:00",	//倒计时要有个初始值
 		}
+	},
+	onLoad(){
+		this.timer = setInterval(()=>{
+			let allTime = 0;
+			let h = this.isEndTime.substring(0,2);
+			let m = this.isEndTime.substring(3,5);
+			let s = this.isEndTime.substring(6,8);
+			allTime = Number(h) * 60 * 60 +  Number(m) * 60  + Number(s);
+			if(allTime<=0)return clearInterval(this.timer);//执行倒计时结束逻辑
+			allTime --;
+			h = parseInt(allTime / 3600) < 10 ? '0' + String(parseInt(allTime / 3600)) : parseInt(allTime / 3600);
+			m = parseInt(allTime / 60) < 10 ? '0' + String(parseInt(allTime / 60)) : parseInt(allTime / 60);
+			s = allTime % 60 < 10 ? '0' + String(allTime % 60) : allTime % 60;
+			this.isEndTime = h+":"+m+":"+s;
+		},1000)
+	},
+	onUnload(){
+		clearInterval(this.timer)
 	},
 	methods:{
 		//全局页面跳转

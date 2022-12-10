@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<z-test-item v-for="(item,index) in testList" :key="index" :item="item"></z-test-item>
+		<z-test-item v-for="(item,index) in testList" :key="index" :item="item" @goToexam="goToexam"></z-test-item>
 		<view class="down" v-if="downShow">----我是有底线的----</view>
 		<view class="down" v-if="!downShow">上拉加载数据</view>
 	</view>
@@ -21,6 +21,10 @@
 			}
 		},
 		async onLoad() {
+			let res= await this.getTestList()
+			this.testList = res.data.data.rows
+		},
+		async onShow() {
 			let res= await this.getTestList()
 			this.testList = res.data.data.rows
 		},
@@ -58,6 +62,18 @@
 			
 		},
 		methods: {
+			//参加考试
+			goToexam(item){
+				console.log(item);
+				uni.showModal({
+					content:'是否要开始考试',
+					success:(res)=> {
+						if(res.confirm){
+						  this.navTo(`/pages/test-detail/test-detail?id=${item.id}`)
+						}
+					}
+				})
+			},
 			//获取开始列表
 			async getTestList(){
 				try{

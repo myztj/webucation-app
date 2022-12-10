@@ -181,33 +181,37 @@ var _indexApi = _interopRequireDefault(__webpack_require__(/*! @/api/indexApi.js
                 _this.getTestList());case 2:res = _context.sent;
               _this.testList = res.data.data.rows;case 4:case "end":return _context.stop();}}}, _callee);}))();
   },
+  onShow: function onShow() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                _this2.getTestList());case 2:res = _context2.sent;
+              _this2.testList = res.data.data.rows;case 4:case "end":return _context2.stop();}}}, _callee2);}))();
+  },
   //监听下拉刷新
-  onPullDownRefresh: function onPullDownRefresh() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var res;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-              _this2.testParams.page = 1;_context2.prev = 1;_context2.next = 4;return (
+  onPullDownRefresh: function onPullDownRefresh() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var res;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+              _this3.testParams.page = 1;_context3.prev = 1;_context3.next = 4;return (
 
-                _this2.getTestList());case 4:res = _context2.sent;
-              _this2.testList = res.data.data.rows;
+                _this3.getTestList());case 4:res = _context3.sent;
+              _this3.testList = res.data.data.rows;
               uni.stopPullDownRefresh();
-              uni.showToast({ title: res.data.data, icon: "none" });_context2.next = 14;break;case 10:_context2.prev = 10;_context2.t0 = _context2["catch"](1);
+              uni.showToast({ title: res.data.data, icon: "none" });_context3.next = 14;break;case 10:_context3.prev = 10;_context3.t0 = _context3["catch"](1);
 
               //TODO handle the exception
               uni.stopPullDownRefresh();
-              console.log(_context2.t0);case 14:case "end":return _context2.stop();}}}, _callee2, null, [[1, 10]]);}))();
+              console.log(_context3.t0);case 14:case "end":return _context3.stop();}}}, _callee3, null, [[1, 10]]);}))();
 
 
   },
   //页面滚动到底部事件
-  onReachBottom: function onReachBottom() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var res, list;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.prev = 0;if (!(
+  onReachBottom: function onReachBottom() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var res, list;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.prev = 0;if (!(
 
-              _this3.testParams.page != _this3.listSize)) {_context3.next = 12;break;}
-              _this3.testParams.page += 1;_context3.next = 5;return (
-                _this3.getTestList(_this3.testParams));case 5:res = _context3.sent;
-              _this3.listSize = Math.ceil(res.data.data.count / _this3.testParams.limit);
+              _this4.testParams.page != _this4.listSize)) {_context4.next = 12;break;}
+              _this4.testParams.page += 1;_context4.next = 5;return (
+                _this4.getTestList(_this4.testParams));case 5:res = _context4.sent;
+              _this4.listSize = Math.ceil(res.data.data.count / _this4.testParams.limit);
               list = res.data.data.rows;
-              _this3.testList = _this3.testList.concat(list);
-              console.log(_this3.testList);_context3.next = 13;break;case 12:
+              _this4.testList = _this4.testList.concat(list);
+              console.log(_this4.testList);_context4.next = 13;break;case 12:
 
-              _this3.downShow = true;case 13:_context3.next = 17;break;case 15:_context3.prev = 15;_context3.t0 = _context3["catch"](0);case 17:case "end":return _context3.stop();}}}, _callee3, null, [[0, 15]]);}))();
+              _this4.downShow = true;case 13:_context4.next = 17;break;case 15:_context4.prev = 15;_context4.t0 = _context4["catch"](0);case 17:case "end":return _context4.stop();}}}, _callee4, null, [[0, 15]]);}))();
 
 
 
@@ -215,21 +219,33 @@ var _indexApi = _interopRequireDefault(__webpack_require__(/*! @/api/indexApi.js
 
   },
   methods: {
-    //获取开始列表
-    getTestList: function getTestList() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var res;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.prev = 0;_context4.next = 3;return (
+    //参加考试
+    goToexam: function goToexam(item) {var _this5 = this;
+      console.log(item);
+      uni.showModal({
+        content: '是否要开始考试',
+        success: function success(res) {
+          if (res.confirm) {
+            _this5.navTo("/pages/test-detail/test-detail?id=".concat(item.id));
+          }
+        } });
 
-                  _indexApi.default.getTestListApi(_this4.testParams));case 3:res = _context4.sent;
+    },
+    //获取开始列表
+    getTestList: function getTestList() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var res;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.prev = 0;_context5.next = 3;return (
+
+                  _indexApi.default.getTestListApi(_this6.testParams));case 3:res = _context5.sent;
                 console.log(res);if (!(
-                res.statusCode == 200)) {_context4.next = 9;break;}return _context4.abrupt("return",
+                res.statusCode == 200)) {_context5.next = 9;break;}return _context5.abrupt("return",
                 res);case 9:
 
 
-                uni.showToast({ title: res.data.data, icon: 'none' });case 10:_context4.next = 15;break;case 12:_context4.prev = 12;_context4.t0 = _context4["catch"](0);
+                uni.showToast({ title: res.data.data, icon: 'none' });case 10:_context5.next = 15;break;case 12:_context5.prev = 12;_context5.t0 = _context5["catch"](0);
 
 
-                console.log(_context4.t0);
+                console.log(_context5.t0);
                 //TODO handle the exception
-              case 15:case "end":return _context4.stop();}}}, _callee4, null, [[0, 12]]);}))();
+              case 15:case "end":return _context5.stop();}}}, _callee5, null, [[0, 12]]);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

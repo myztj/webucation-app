@@ -150,7 +150,13 @@ var _default2 =
     return {};
 
 
-  } };exports.default = _default2;
+  },
+  methods: {
+    //参加考试
+    goToexam: function goToexam(item) {
+      if (item.is_test) return;
+      this.$emit('goToexam', item);
+    } } };exports.default = _default2;
 
 /***/ }),
 

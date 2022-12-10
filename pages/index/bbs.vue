@@ -18,7 +18,7 @@
 		</view>
 		<!-- 内容 -->
 		<view class="list-box">
-			<view class="list-item" v-for="(item,index) in bbsList" :key="index">
+			<view class="list-item" v-for="(item,index) in bbsList" :key="item.id">
 				<view class="item-up">
 					<view class="userinfo">
 						<view class="userinfo-title">
@@ -32,7 +32,7 @@
 					</view>
 					<view class="content">{{item.desc.text}}</view>
 					<view class="img" v-if="item.desc.images.length">
-						<image :src="ele" mode="" v-for="(ele,index) in item.desc.images"></image>
+						<image :src="ele" mode="" v-for="(ele,index) in item.desc.images" :key="index"></image>
 					</view>
 				</view>
 				<view class="item-down">
@@ -61,26 +61,54 @@ export default {
 			bbsParams:{
 				page:1,
 			    bbs_id:0,
+				
 			},
 			navListPage:0,
-			activeIndex:0
+			activeIndex:0,
+			//用于判断数据的总页数
+			bbsPageSize:0
 		};
+	},
+	onNavigationBarButtonTap() {
+		this.navTo('/pages/add-post/add-post')
 	},
 	async onLoad() {
 		try{
 			let res = await this.getBbsNavList()
 			this.bbsNavList = res.data.data.rows
-			this.bbsNavList.unshift({id:'881',title:'全部'})
-			this.getBbsList()
+			this.bbsNavList.unshift({id:0,title:'全部'})
+			let response = await this.getBbsList()
+			this.bbsList = response.data.data.rows
 		}catch(e){
 			//TODO handle the exception
 		}
 	},
+	//监听页面下拉触底
+	async onReachBottom(){
+		if(this.bbsPageSize!=this.bbsParams.page){
+			try{
+				this.bbsParams.page+=1
+				let response = await this.getBbsList()
+				this.bbsPageSize = Math.ceil(response.data.data.count/10)
+				this.bbsList = this.bbsList.concat(response.data.data.rows)
+			}catch(e){
+				//TODO handle the exception
+			}
+		}
+	},
 	methods: {
 		//点击每个Nav按钮
-		handelNavItem(index,item){
+		async handelNavItem(index,item){
 			this.activeIndex = index
-			console.log(item,index);
+			this.bbsParams.bbs_id=item.id
+			try{
+				let res = await this.getBbsList()
+				this.bbsList = res.data.data.rows
+			}catch(e){
+				console.log(e);
+				//TODO handle the exception
+			}
+			console.log(item);
 		},
 		//顶部滑动加载
 		async handelScrollLoad(){
@@ -97,8 +125,7 @@ export default {
 		},
 		async getBbsNavList(){
 			try{
-				let res = await bbsApi.getBbsNavListApi(this.bbsParams.page)
-				console.log(res);
+				let res = await bbsApi.getBbsNavListApi({page:this.bbsParams.page})
 				return res
 			}catch(e){
 				//TODO handle the exception
@@ -108,7 +135,7 @@ export default {
 			try{
 				let res = await bbsApi.getBbsListApi(this.bbsParams)
 				console.log(res);
-				this.bbsList = res.data.data.rows
+				return res
 			}catch(e){
 				//TODO handle the exception
 			}
