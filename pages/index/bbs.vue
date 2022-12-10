@@ -17,37 +17,7 @@
 			</view>
 		</view>
 		<!-- 内容 -->
-		<view class="list-box">
-			<view class="list-item" v-for="(item,index) in bbsList" :key="item.id">
-				<view class="item-up">
-					<view class="userinfo">
-						<view class="userinfo-title">
-							<image :src="item.user.avatar" mode=""></image>
-							<view class="userinfo-name">
-								<text style="color: #007bff; font-size: 33rpx; font-weight: bold;">{{item.user.name}}</text>
-								<text>{{item.user.sex}}</text>
-							</view>
-						</view>
-						<view class="tbg" v-if="item.is_top">精华</view>
-					</view>
-					<view class="content">{{item.desc.text}}</view>
-					<view class="img" v-if="item.desc.images.length">
-						<image :src="ele" mode="" v-for="(ele,index) in item.desc.images" :key="index"></image>
-					</view>
-				</view>
-				<view class="item-down">
-					<view class="icon">
-						<text class="iconfont icon-pinglun2"></text>
-						<text class="text">{{item.comment_count}}</text>
-						<text class="iconfont icon-dianzan2"></text>
-						<text class="text">{{item.support_count}}</text>
-					</view>
-					<view class="time">
-						{{item.created_time}}
-					</view>
-				</view>
-			</view>
-		</view>
+		<z-post-item v-for="(item,index) in bbsList" :key="index" :item="item" @userLike="userLike" @clickViewDetails="clickViewDetails"></z-post-item>
 	</view>
 </template>
 
@@ -66,7 +36,8 @@ export default {
 			navListPage:0,
 			activeIndex:0,
 			//用于判断数据的总页数
-			bbsPageSize:0
+			bbsPageSize:0,
+			post_id:'' //点赞所需Id
 		};
 	},
 	onNavigationBarButtonTap() {
@@ -97,6 +68,32 @@ export default {
 		}
 	},
 	methods: {
+	     //点击查看详情
+		 clickViewDetails(item){
+			 console.log(item);
+			 this.navTo(`/pages/post-detail/post-detail?id=${item.id}`)
+		 },
+		//点赞
+		async userLike(item){
+			this.post_id = item.id
+			try{
+				if(item.issupport){
+				let res = await bbsApi.userUnLikeApi({post_id:this.post_id})
+				if(res.statusCode==200){
+					uni.showToast({title:'取消点赞',icon:"none"})
+				}
+				}else{
+			     let res = await bbsApi.userLikeApi({post_id:this.post_id})
+				 if(res.statusCode==200){
+				 	uni.showToast({title:'点赞成功',icon:"none"})
+				 }
+				}
+				let res = await this.getBbsList()
+				this.bbsList = res.data.data.rows
+			}catch(e){
+				//TODO handle the exception
+			}
+		},
 		//点击每个Nav按钮
 		async handelNavItem(index,item){
 			this.activeIndex = index
@@ -177,69 +174,6 @@ export default {
 			font-size: 34rpx;
 			margin-left: 20rpx;
 			color: #6c757d;
-		}
-	}
-}
-.list-box{
-	.list-item{
-        padding: 30rpx;
-		border-bottom: 15rpx solid #f5f5f3;
-		.item-up{
-			.userinfo{
-				display: flex;
-				align-items: center;
-				justify-content: space-between;
-				.tbg{
-					background-color: #ffc107;
-					height: 60rpx;
-					padding: 0 20rpx;
-					color: #fff;
-					line-height: 60rpx;
-					font-size: 28rpx;
-				}
-				.userinfo-title{
-					display: flex;
-					flex-shrink: 0;
-					>image{
-						margin-right: 15rpx;
-						width: 74rpx;	
-						height: 74rpx;
-						border-radius: 50%;
-					}
-					.userinfo-name{
-						display: flex;
-						flex-direction: column;
-					}
-				}
-			}
-			.content{
-				margin-top: 20rpx;
-			}
-			.img{
-				display: flex;
-				justify-content: space-between;
-				>image{
-					width: 220rpx;
-					height: 220rpx;
-					border-radius: 15rpx;
-				}
-			}
-		}
-		.item-down{
-			margin-top: 40rpx;
-			display: flex;
-			justify-content: space-between;
-			.icon{
-				display: flex;
-				align-items: center;
-				.iconfont{
-					font-size: 46rpx;
-				}
-				.text{
-					font-size: 35rpx;
-					padding: 0 20rpx;
-				}
-			}
 		}
 	}
 }

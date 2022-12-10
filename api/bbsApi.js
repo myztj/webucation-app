@@ -24,9 +24,47 @@ const addInvitationApi = (data)=>{
 		data
 	})
 }
+//点赞
+const userLikeApi = (data)=>{
+	return request({
+		url:'/mobile/post/support',
+		method:'POST',
+		data
+	})
+}
 
+//取消点赞
+const userUnLikeApi = (data)=>{
+	return request({
+		url:'/mobile/post/unsupport',
+		method:'POST',
+		data
+	})
+}
+
+//获取帖子详情
+const getPostReadApi = (data)=>{
+	return request({
+		url:'/mobile/post/read',
+		method:'GET',
+		data
+	})
+}
+
+//获取帖子评价回复数据
+const getEvaluateReplyApi = (data)=>{
+	return request({
+		url:'/mobile/post_comment',
+		method:'GET',
+		data
+	})
+}
 export default {
 	getBbsNavListApi,
 	getBbsListApi,
-	addInvitationApi
+	addInvitationApi,
+	userLikeApi,
+	userUnLikeApi,
+	getPostReadApi,
+	getEvaluateReplyApi
 }
