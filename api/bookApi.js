@@ -24,8 +24,29 @@ const getBookSectionDetailApi = (book_id,id)=>{
 		
 	})
 }
+
+//立即学习
+const goToStudyApi = (data)=>{
+	return request({
+		url:'/mobile/order/learn',
+		method:'POST',
+		data
+	})
+}
+
+//我的学习列表
+const getMyBookListApi = (data) =>{
+	return request({
+		url:'/mobile/mybook',
+		method:'GET',
+		data
+	})
+}
+
 export default{
 	getBookLIstApi,
 	getBookDetailApi,
-	getBookSectionDetailApi
+	getBookSectionDetailApi,
+	goToStudyApi,
+	getMyBookListApi
 }

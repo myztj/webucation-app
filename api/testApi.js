@@ -8,6 +8,26 @@ const getTestTopicApi = (data) =>{
 	})
 }
 
+//交卷
+const submitTestApi = (data)=>{
+	return request({
+		url:'/mobile/user_test/save',
+		method:'POST',
+		data
+	})
+}
+
+//我的考试记录
+const getMyTestListApi = (data)=>{
+	return request({
+		url:'/mobile/user_test/list',
+		method:'GET',
+		data
+	})
+}
+
 export default{
-	getTestTopicApi
+	getTestTopicApi,
+	getMyTestListApi,
+	submitTestApi
 }

@@ -3,9 +3,7 @@
 		<view class="book-box" v-for="(item,index) in bookList" :key="index" @click="goToBookDetail(item)">
 		   <z-book-item :item="item"></z-book-item>
 		</view>
-		<view class="info" v-if="isshowInfo">
-			---我也是有底线的---
-		</view>
+		<view class="info" v-if="isshowInfo">---我也是有底线的---</view>
 	</view>
 </template>
 

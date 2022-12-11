@@ -1,15 +1,15 @@
 <template>
 	<view>
 		<view class="nav-list">
-			<view class="nav-item">
+			<view class="nav-item" @click="getMyPostList">
 				<text class="iconfont icon-OrderHistory"></text>
 				<text class="text">帖子</text>
 			</view>
-			<view class="nav-item">
+			<view class="nav-item" @click="getMyExam">
 				<text class="iconfont icon-pinglun2"></text>
 				<text class="text">考试</text>
 			</view>
-			<view class="nav-item">
+			<view class="nav-item" @click='getMyBooklist'>
 				<text class="iconfont icon-shoucang1"></text>
 				<text class="text">电子书</text>
 			</view>
@@ -24,6 +24,20 @@
 			return {
 				
 			};
+		},
+		methods:{
+			//我的帖子
+			getMyPostList(){
+				this.navTo('/pages/my-post/my-post')
+			},
+			//我的考试
+			getMyExam(){
+				this.navTo('/pages/my-test/my-test')
+			},
+			//我的电子书
+			getMyBooklist(){
+				this.navTo('/pages/my-book/my-book')
+			}	
 		}
 	}
 </script>

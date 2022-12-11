@@ -9,12 +9,12 @@
 					<text>{{item.title}}</text>
 				</view>
 				<view class="down">
-					<view class="price">
+					<view class="price" v-if="item.price">
 						<text class="current-price">￥{{item.price}}</text>
 						<text class="original-price">￥{{item.t_price}}</text>
 					</view>
-					<view class="subscription">
-						<text>{{item.sub_count}}人订阅</text>
+					<view class="subscription" @click="handerOnclick(item)">
+						<text>{{item.sub_count}}{{describe}}</text>
 						<text class="iconfont icon-xiayibu ml-1"></text>
 					</view>
 				</view>
@@ -38,6 +38,15 @@
 					t_price:'3.00',
 					title:"demo11"
 				})
+			},
+			describe:{
+				type:String,
+				default:'人订阅'
+			}
+		},
+		methods:{
+			handerOnclick(item){
+				this.$emit('handerOnclick',item)
 			}
 		},
 		data() {
@@ -63,20 +72,22 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		.price{
-			.current-price{
-				color: red;
-			}
-			.original-price{
-				font-size: 20rpx;
-				color: #6d769a;
-			}
-		}
 		.down{
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-end;
+			// display: flex;
+			// justify-content: space-between;
+			// align-items: flex-end;
+			.price{
+				float: left;
+				.current-price{
+					color: red;
+				}
+				.original-price{
+					font-size: 20rpx;
+					color: #6d769a;
+				}
+			}
 			.subscription{
+				float: right;
 				border: 1rpx solid #6d769a;
 				color: #6d769a;
 				border-radius: 30rpx;

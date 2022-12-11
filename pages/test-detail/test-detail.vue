@@ -4,7 +4,7 @@
 			考试时间
 			<text class="time">{{ isEndTime }}</text>
 		</view>
-		<block   v-for="(item,index) in questionBank" :key="index">
+		<block v-for="(item,index) in questionBank" :key="index">
 			<view class="test-content" v-if="index==tIndex">
 				<view class="content-type">
 					<text>问答题</text>
@@ -48,44 +48,55 @@ export default {
 	data() {
 		return {
 			userTestId: 0,
-			questionBank:[],
+			questionBank:uni.getStorageSync('test') || [],
 			tIndex:0,
 			letters:['A','B','C','D','E','F'],
 			tesData:'',
 			gapIndex:1,
 			checkedIndex:null,
 			multipleFlag:[],
-			Testvalue:[]
+			testParams:{
+				Testvalue:[],
+				user_test_id:'' //提交试卷需要的Id
+			},
+			testId:[]
 		};
 	},
 	onLoad(options) {
 		console.log(options);
 		this.userTestId = options.id;
-		this.getTestTopic();
+		// this.getTestTopic();
 	},	
-	onUnload() {
+	onHide() {
 		clearInterval(this.timer);
 	},
 	methods: {
 		//答题
 		handelOnClick(inx,item){
-			console.log(item);
+			console.log(item);	
 			if(item.type=='checkbox'){
+				let id = item.id
 				// this.multipleFlag=Array(item.options.length).fill('')
 				this.multipleFlag[inx]=inx
-				this.Testvalue.push(this.multipleFlag)
+				console.log(this.multipleFlag);
+				this.testParams.Testvalue.push(this.multipleFlag)
+				console.log(this.testParams);
 			}else{
 				console.log(inx);
 				this.checkedIndex = inx
-				this.Testvalue.push(this.checkedIndex)
-				if(this.tesData) this.Testvalue.push(this.tesData)
+				this.testParams.Testvalue.push(this.checkedIndex)
+				if(this.tesData) this.testParams.Testvalue.push(this.tesData)
+				console.log(this.testParams);
 			}
-
-			
 		},
 		//交卷
-		submitTest(){
-			console.log(this.Testvalue);
+		async submitTest(){
+			try{
+				let res = await testApi.submitTestApi(this.testParams)
+				console.log(res);
+			}catch(e){
+				//TODO handle the exception
+			}
 		},
 		//上一题
 		handerPrevious(){
@@ -98,26 +109,29 @@ export default {
 			if(this.questionBank.length-1==this.tIndex) return
 			this.tIndex ++
 			this.gapIndex=1
+			this.checkedIndex=null
 		},
-		async getTestTopic() {
-			try {
-				let res = await testApi.getTestTopicApi({ id: this.userTestId });
-				console.log(res);
-				this.questionBank = res.data.data.testpaper_questions
-				console.log(this.questionBank);
-				if (res.statusCode == 400) {
-					uni.showToast({
-						title: res.data.data,
-						icon: 'none'
-					});
-					// setTimeout(()=>{
-					// 	// this.navTo('/pages/index/test-list')
-					// },500)
-				}
-			} catch (e) {
-				//TODO handle the exception
-			}
-		}
+		// async getTestTopic() {
+		// 	try {
+		// 		let res = await testApi.getTestTopicApi({ id: this.userTestId });
+		// 		console.log(res);
+		// 		this.questionBank = res.data.data.testpaper_questions
+		// 		this.testParams.user_test_id = res.data.data.user_test_id
+		// 		console.log(this.questionBank);
+		// 		uni.setStorageSync('test',this.questionBank)
+		// 		if (res.statusCode == 400) {
+		// 			uni.showToast({
+		// 				title: res.data.data,
+		// 				icon: 'none'
+		// 			});
+		// 			setTimeout(()=>{
+		// 				this.navTo('/pages/index/test-list')
+		// 			},500)
+		// 		}
+		// 	} catch (e) {
+		// 		//TODO handle the exception
+		// 	}
+		// }
 	}
 };
 </script>

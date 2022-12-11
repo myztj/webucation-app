@@ -31,8 +31,8 @@
 			<view class="total">共{{detailData.book_details.length}}节</view>
 	        <my-book-list :acIndex="acIndex" :detailData="detailData.book_details" @handlerBookCatalog="handlerBookCatalog"></my-book-list>
 		</view>
-	<view v-if="detailData.price!=='0.00'" class="btn-box"><button class="btn" type="default">立即订购￥{{detailData.price}}</button></view>
-	<view v-else class="btn-box"><button class="btn" type="default">立即学习</button></view>
+	<view v-if="detailData.price!=='0.00'" class="btn-box" @click="gotoBut"><button class="btn" type="default">立即订购￥{{detailData.price}}</button></view>
+	<view v-else-if="!detailData.isbuy && detailData.price=='0.00'" class="btn-box" @click="goToStudy"><button class="btn" type="default">立即学习</button></view>
 	</view>
 </template>
 
@@ -60,6 +60,24 @@ export default {
 		this.getBookDetail()
 	},
 	methods: {
+		//立即学习
+		async goToStudy(){
+			// console.log(this.detailData);
+			try{
+				let res = await bookApi.goToStudyApi({goods_id:this.bookIb,type:'book'})
+				console.log(res);
+				if(res.data.code==20000){
+					 this.getBookDetail()
+				}
+			}catch(e){
+				//TODO handle the exception
+			}
+		},
+		//立即购买
+		gotoBut(){
+			console.log(this.detailData);
+			this.navTo(`/pages/create-order/create-order?id=${this.detailData.id}&type=book`)
+		},
 		handlerBookCatalog(item,index){
 			// console.log(item);
 			if(!item.isfree) return uni.showToast({title:'请先购买该电子书',icon:'none'})

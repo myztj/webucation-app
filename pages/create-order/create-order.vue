@@ -31,13 +31,14 @@
 			}
 		},
 		onLoad(option) {
+			console.log(option);
 			if(option.price){
 				this.userParams[0].word=`减（${option.price}元）`
 				this.couponPrice = option.price
 			}
-			console.log(option);
 			this.payParams.id = option.id
 			this.payParams.type = option.type
+				// this.getBookList()
 			this.getPayList()
 			this.findGoodsCoupon()
 		},
@@ -68,6 +69,16 @@
 			async getPayList(){
 				try{
 					let res = await orderApi.getPayListApi(this.payParams)
+					console.log(res);
+					this.payList = res.data.data
+				}catch(e){
+					//TODO handle the exception
+				}
+			},
+			//获取订单详情
+			async getBookList(){
+				try{
+					let res = await orderApi.getBookListApi({goods_id:this.payParams.id,type:this.payParams.type})
 					console.log(res);
 					this.payList = res.data.data
 				}catch(e){

@@ -38,6 +38,15 @@ const getPayListApi = (data)=>{
 	})
 }
 
+//获取书籍立即购买订单详情
+const getBookListApi = (data)=>{
+	return request({
+		url:'/mobile/book/read',
+		method:'GET',
+		data
+	})
+}
+
 //差查询是否有优惠券
 const findGoodsCouponApi = (data)=>{
 	return request({
@@ -51,5 +60,6 @@ export default {
 	getMyInfoApi,
 	getUseCouponApi,
 	getPayListApi,
-	findGoodsCouponApi
+	findGoodsCouponApi,
+	getBookListApi
 }
